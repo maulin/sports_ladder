@@ -65,7 +65,8 @@ class ChallengesController < ApplicationController
     if Challenge.create(
       :challenger_id => @current_player.id,
       :defender_id => params[:challenge][:defender_id],
-      :ladder_id => @ladder.id)
+      :ladder_id => @ladder.id,
+      :challenge_end_date => Time.now + 10.days)
       @challenger_stat.update_attribute(:is_challenged, 1)
       @defender_stat.update_attribute(:is_challenged, 1)
 

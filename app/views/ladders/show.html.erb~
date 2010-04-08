@@ -48,6 +48,7 @@
 	  <th>Challenger</th>
 	  <th>Defender</th>
 	  <th>Challenge date</th>
+	  <th>Challenge end date</th>
 		<% if @administer %>
 			<th>Cancel challenge</th>
 		<% end %>
@@ -57,6 +58,7 @@
 	  <td><%= "#{c.challenger.first_name} #{c.challenger.last_name}" %></td>
 	  <td><%= "#{c.defender.first_name} #{c.defender.last_name}" %></td>
 	  <td><%= "#{c.created_at.to_s(:short)}" %></td>
+
 		<% if @administer %>
 			<td><%= link_to "Cancel challenge", ladder_challenge_path(@ladder.id, c.id), :method => "delete",
 			:confirm => "Are you sure you want to cancel this challenge?" %></td>
