@@ -1,0 +1,54 @@
+<div id="content">
+
+  <div id="tertiaryContent">
+    <div class="xbg"></div>
+  </div>
+
+<div id="primaryContentContainer">
+  <div id="primaryContent">
+    <h3>Completed challenges</h3>
+	<%= will_paginate @challenges %>
+    <table>
+    <tr class="rowH">
+      <th>Ladder</th>
+      <th>Challenger</th>
+      <th>Result</th>
+      <th>Defender</th>
+      <th>Score</th>
+      <th>Challenge Date</th>
+      <th>Completed Date</th>
+    </tr>
+    <% @challenges.each do |c| %>
+    <tr class="rowA">
+      <td><%= "#{c.ladder.name}" %></td>
+      <td><%= "#{c.challenger.first_name} #{c.challenger.last_name}" %></td>
+      <% if c.winner_id == c.challenger_id %>
+	<td> Defeated </td>
+      <%else%>
+	<td> Lost to </td>
+      <%end%>
+      <td><%= "#{c.defender.first_name} #{c.defender.last_name}" %></td>
+      <td><%= "#{c.score}" %></td>
+      <td><%= "#{c.created_at.to_s(:short)}" %></td>
+      <td><%= "#{c.updated_at.to_s(:short)}" %></td>
+    </tr>
+    <%end%>
+  </table>
+	<%= will_paginate @challenges %>
+  </div>
+</div>
+
+  <div id="secondaryContent">
+    <h3> Navigation </h3>
+    <ul>
+    <% if !@ladder.nil? %>
+      <li><%= link_to "Back to #{@ladder.name}", @ladder %></li>
+    <% else %>
+      <li><%= link_to "My page", @player %></li>
+    <%end%>
+    </ul>
+    <div class="xbg"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>

@@ -1,0 +1,3 @@
+page.replace_html 'statistics', "Number of players: #{@ladder.statistics.size}"
+page[:statistics].visual_effect :highlight
+

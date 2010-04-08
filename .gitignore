@@ -1,0 +1,7 @@
+db/schema.rb
+log/*
+tmp/*
+config/database.yaml
+config/environment.rb
+config/environments/*
+lib/tasks/maulin.rake

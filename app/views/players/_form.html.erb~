@@ -1,0 +1,33 @@
+<%= error_messages_for 'player' %>
+<% form_for(@player) do |f| %>
+	<p>
+	First Name:<br>
+	<%= f.text_field :first_name %>
+	</p>
+	<p>
+	Last Name:<br>
+	<%= f.text_field :last_name %>
+	</p>
+	<p>
+	Email:<br>
+	<%= f.text_field :email %>
+	</p>
+	<p>
+	Username:<br>
+	<%= f.text_field :login %>
+	</p>
+	<p>
+	Password:<br>
+	<%= f.password_field :password %>
+	</p>
+	<p>
+	<%= hidden_field_tag 'question', "#{@spam.question}" %>
+	<%= "#{@spam.question}" %><br>
+	<%= text_field_tag :answer %>
+	</p>
+	<p>
+	<%= submit_tag "Save" %>
+	</p>
+<% end %>
+
+

@@ -1,0 +1,54 @@
+<div id="content">
+
+  <div id="tertiaryContent">
+    <div class="xbg"></div>
+  </div>
+
+  <div id="primaryContentContainer">
+    <div id="primaryContent">
+      <h2>Challenge completion.</h2>
+      <b>Ladder:</b><%= " #{@challenge.ladder.name}"%><br>
+      <b>Challenger:</b><%= " #{@challenge.challenger.first_name} #{@challenge.challenger.last_name}"%><br>
+      <b>Defender:</b><%= " #{@challenge.defender.first_name} #{@challenge.defender.last_name}"%><br>
+      <b>Challenge date:</b><%= " #{@challenge.created_at}"%><br><br>
+
+      <%= error_messages_for 'challenge' %>
+      <% form_tag(ladder_challenge_path(@challenge.ladder_id, @challenge.id), :method => :put) do %>
+	Select the winner of this challenge.<br>
+	<%= collection_select(:challenge, :winner_id , @players, "id", "first_name") %><br><br>
+
+	Score:<br>
+	<% if @challenge.ladder.sport == "Tennis" %>
+	  <p>
+	    <i>Enter the score of the winner of each set in the first box, followed by the score of the loser in the second.<br>
+	    The box encolsed by () is to be used only for tie break scores. Only enter the score of the loser of the tie-break.</i>
+	  </p>
+	  <% @challenge.ladder.best_of.times do |i| %>
+	    <b>Set <%= "#{i+1}" %>:</b><br>
+	    <%= text_field_tag "s[]", '', :size => 1, :maxlength => 1 %> /
+	    <%= text_field_tag "s[]", '', :size => 1, :maxlength => 1 %>
+	    (<%= text_field_tag "s[]", '', :size => 1, :maxlength => 2 %>)<br>
+	  <% end %><br>
+	<% end %>
+	<% if @challenge.ladder.sport == "Racquet Ball" %>
+	  <p>
+	    <i>Enter the score of the winner of each game in the first box, followed by the score of the loser in the second.<br></i>
+	  </p>
+	  <% @challenge.ladder.best_of.times do |i| %>
+	    <b>Game <%= "#{i+1}" %>:</b><br>
+	    <%= text_field_tag "s[]", '', :size => 1, :maxlength => 2 %> /
+	    <%= text_field_tag "s[]", '', :size => 1, :maxlength => 2 %><br>
+	  <% end %><br>
+	<% end %>
+
+	<%= submit_tag "Submit score" %>
+      <%end %>
+    </div>
+  </div>
+
+  <div id="secondaryContent">
+    <div class="xbg"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>

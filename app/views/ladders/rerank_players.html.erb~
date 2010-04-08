@@ -1,0 +1,52 @@
+<div id="content">
+
+  <div id="tertiaryContent">
+    <div class="xbg"></div>
+  </div>
+
+  <div id="primaryContentContainer">
+    <div id="primaryContent">
+
+			<h2>Reset stats</h2>
+			<p>Reseting stats will set the highest rank and lowest rank for all players in this
+			ladder to their current rank.</p>
+			<% form_tag reset_stats_path, :method => :put do %>
+				<%= submit_tag "Reset Stats" %>
+			<% end %>
+
+      <br><br>
+			<h2>Rerank players</h2>
+			<p>Select the players you want to rerank by clicking the check-box next to their names and then select their rank
+			from the drop down list. To unrank a player, select "0" as the rank.</p>
+
+      <% form_tag rerank_path, :method => :put do %>
+				<table>
+				<tr class="rowH">
+					<th>Select</th>
+					<th>Player name</th>
+					<th>New Rank</th>
+				</tr>					
+				<% for stat in @stats %>
+					<tr class="rowA">
+						<td><%= check_box_tag "stat_ids[]", stat.id %></td>
+					  <td><%= "#{stat.player.first_name} #{stat.player.last_name}" %></td>
+					  <td><%= select_tag("current_ranks[]", options_for_select(@ranks)) %></td>
+					</tr>
+				<% end %><br>
+				</table>
+				<%= submit_tag "Rerank" %>
+			<% end %>
+			
+    </div>
+  </div>
+
+  <div id="secondaryContent">
+    <h3 align="center"> Navigation </h3>
+    <ul>
+      <li><%= link_to "Back to #{@ladder.name}", @ladder %></li>
+    </ul>
+    <div class="xbg"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>

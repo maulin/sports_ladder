@@ -1,0 +1,31 @@
+<div id="content">
+
+  <div id="tertiaryContent">
+    <div class="xbg"></div>
+  </div>
+
+  <div id="primaryContentContainer">
+    <div id="primaryContent">
+      <h2>Challenge someone!</h2>
+	<% if @players.size == 0 %>
+	  There is no one you can currently challenge.<br>
+	<% else %>
+	  <% form_tag(ladder_challenges_path(@ladder.id), :method => "post") do %>
+	    Select the name of the player you want to challenge:
+	    <%= collection_select("challenge", "defender_id" , @players, "id", "first_name") %><br><br>
+	    <%= submit_tag "Challenge!" %><br>
+	  <%end%>
+	<% end %>
+    </div>
+  </div>
+
+  <div id="secondaryContent">
+    <h3 align="center"> Navigation </h3>
+    <ul>
+      <li><%= link_to "Back to #{@ladder.name}", @ladder %></li>
+    </ul>
+    <div class="xbg"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>

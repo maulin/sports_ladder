@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+	Design by Free CSS Templates
+	http://www.freecsstemplates.org
+	Released for free under a Creative Commons Attribution 2.5 License
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<%= javascript_include_tag :defaults %>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Sports Ladder</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<%= stylesheet_link_tag 'styleblue' %>
+</head>
+
+<body>
+  <div id="outer">
+      <% if logged_in? %>
+	Logged in as: <%= @current_player.login %> <%= link_to "(Logout)", session_path, :method => :delete %>
+      <% else %>
+	Not logged in. <%= link_to 'Login', new_session_path %>
+      <% end %>
+  
+      <div id="header">
+	  <h1><a href="#">Sports Ladder</a></h1>
+      </div>
+
+	<div id="menu">
+	  <ul>
+	    <li class="first"><%= link_to 'List of Ladders', ladders_path %></li>
+	  <% if !logged_in? %>
+	    <li><%= link_to 'Login', new_session_path %></li>
+	    <li><%= link_to 'Register', new_player_path %></li>
+	  <% end %>
+	  <% if logged_in? %>
+	    <li><%= link_to 'My Page', player_path(@current_player) %></li>
+	    <li><%= link_to 'Create Ladder', new_ladder_path %></li>
+	  <% end %>
+	  </ul>
+	</div>
+
+      <% unless flash[:notice].blank? %>
+	<div id = "notification"><%= flash[:notice] %></div>
+      <% end %>
+      <%= yield %>
+      
+  <div id="footer">
+		<p>
+	  Contact: admin [at] maulinpathare [dot] c o m<br>
+	  CSS by: <a href="http://www.freecsstemplates.org">Free CSS Templates</a>
+		</p><br>
+<script type="text/javascript"><!--
+google_ad_client = "pub-2672173395696564";
+/* 468x60, created 2/27/09 */
+google_ad_slot = "7973689042";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+  </div>
+
+  </div>
+
+</body>
+
+</html>
+

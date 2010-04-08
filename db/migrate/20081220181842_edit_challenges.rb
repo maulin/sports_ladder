@@ -1,0 +1,13 @@
+class EditChallenges < ActiveRecord::Migration
+  def self.up
+		remove_column :challenges, :challenged_id
+		add_column :challenges, :defender_id, :integer
+		add_column :challenges, :ladder_id, :integer
+		add_column :challenges, :winner_id, :integer
+  end
+
+  def self.down
+		add_column :challenges, :challenged_id, :integer
+		remove_column :challenges, :defender_id, :ladder_id
+  end
+end

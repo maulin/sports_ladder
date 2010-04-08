@@ -1,0 +1,38 @@
+<div id="content">
+
+  <div id="tertiaryContent">
+    <div class="xbg"></div>
+  </div>
+
+  <div id="primaryContentContainer">
+    <div id="primaryContent">
+      <h2>Comments</h2>
+		<%= will_paginate @comments %>
+      <% @comments.each do |c| %>
+	<blockquote>
+	  <p>
+	    <b><%= "#{c.created_at.to_s(:short)}:" %></b><br>
+	    <b><%= "#{c.player.first_name} said:" %></b><br><br>
+	    <%= simple_format(sanitize(c.comment)) %><br>
+			<% if c.player_id == @current_player.id %>
+				<%= link_to 'Edit comment', edit_player_comment_path(@current_player.id, c.id), :method => "get" %>
+			<% end %>
+	    <hr>
+	  </p>
+	</blockquote>
+      <%end%>
+		<%= will_paginate @comments %>
+    </div>
+  </div>
+
+  <div id="secondaryContent">
+    <h3 align="center"> Navigation </h3>
+    <ul>
+      <li><%= link_to 'New comment', new_ladder_comment_path(@ladder.id), :method => "get" %></li>
+      <li><%= link_to "Back to #{@ladder.name}", @ladder %></li>
+    </ul>
+    <div class="xbg"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>

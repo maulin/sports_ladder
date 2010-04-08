@@ -1,0 +1,35 @@
+<div id="Content">
+
+  <div id="tertiaryContent">
+    <h3>Site Details</h3>
+    <ul>
+      <li><%= "Total ladders : #{@ladders.size}" %></li>
+      <li><%= "Number of players : #{@players}" %></li>
+      <li><%= "Challenges made : #{@challenges}" %></li>
+    </ul>
+    <div class="xbg"></div>
+  </div>
+
+  <div id="primaryContentContainer">
+    <div id="primaryContent">
+      <h3> About </h3>
+      <p>
+				Are you looking for an efficient, organized ranking system for group sporting events and tournaments?<br><br>
+
+				Sports Ladder is an internet-based ladder system that currently supports tennis and racket ball ladders, with plans to track to 				additional sports in the future. Keep tabs on scores, or take it one step further and challenge your opponents to a match right from 					the website. Settings for each ladder are completely customizable, and can be changed any time by the ladder administrator. Lastly, 				connect to other ladder participants with messages in a particular ladder's comments section.
+      </p>
+    </div>
+  </div>
+
+  <div id="secondaryContent">
+    <h3> List of Ladders </h3>
+    <ul>
+      <% @ladders.each do |l| %>
+	<li><%= link_to l.name, l %></li>
+      <% end %>
+    </ul>
+    <div class="xbg"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>

@@ -1,0 +1,31 @@
+<%= error_messages_for 'ladder' %>
+<% form_for(@ladder) do |f| %>
+<p>
+  <b>Ladder Name:</b><br>
+  <%= f.text_field :name %><br>
+  <i>This is the name of your ladder.</i><br><br>
+  
+  <b>Sport:</b><br>
+  <%= f.select(:sport, ["Tennis", "Racquet Ball"]) %><br>
+  <i>The sport that will be played.</i><br><br>
+
+  <b>Best of:</b><br>
+  <%= f.text_field :best_of %><br>
+  <i>Number of games/sets/matches to be played in a challenge.</i><br><br>
+
+  <b>Cooldown:</b><br>
+  <%= f.text_field :cooldown %><br>
+  <i>Number of days to wait before challenging the same player again.<br>
+	Changing the cooldown will only affect new challenges.</i><br><br>
+
+  <b>Rungs:</b><br>
+  <%= f.text_field :rungs %><br>
+  <i>Number of players above the challenger that can be challenged.</i><br><br>
+
+  <b>Description:</b><br>
+  <%= f.text_area :description %><br><br>
+	<i>use of HTML tags like &lt br &gt, &lt ul &gt is allowed</i><br><br>
+
+  <%= submit_tag "Save"%>
+</p>
+<% end %>

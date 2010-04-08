@@ -1,0 +1,30 @@
+<div id="content">
+
+  <div id="tertiaryContent">
+    <div class="xbg"></div>
+  </div>
+
+  <div id="primaryContentContainer">
+    <div id="primaryContent">
+      <h2>Change ladder settings.</h2>
+      <p>
+	<%= render :partial => 'form' %>
+      </p>
+    </div>
+  </div>
+
+  <div id="secondaryContent">
+    <h3 align="center"> Navigation </h3>
+    <ul>
+      <li><%= link_to "Back to #{@ladder.name}", @ladder %></li>
+      <li><%= link_to "Rerank Players", rerank_players_path(@ladder) %></li>
+			<li><%= link_to "Delete Ladder", ladder_path(@ladder), :method => "delete", 
+			:confirm => "Are you sure you want to delete ladder #{@ladder.name}" %></li>
+    </ul>
+    <div class="xbg"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+

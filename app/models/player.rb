@@ -1,0 +1,34 @@
+require 'digest/sha1'
+
+class Player < ActiveRecord::Base
+  has_many :statistics
+  has_many :comments
+  has_many :ladders, :through => :statistics
+  has_many :challenges, :class_name => 'Challenge', :foreign_key => 'challenger_id'
+  has_many :defences, :class_name => 'Challenge', :foreign_key => 'defender_id'
+  
+  validates_presence_of :first_name, :last_name, :login, :email
+  validates_presence_of :password, :if => :validate_password?
+  validates_uniqueness_of :login, :email
+  validates_format_of :first_name, :last_name, :with => /^[a-z A-Z]+$/, :message => "only aplhabets and spaces are allowed"
+  validates_format_of :login, :with => /^[a-z A-Z0-9]+$/, :message => "only aplhanumerics and spaces are allowed"
+  validates_length_of :login, :in => 6..15
+  validates_format_of :password, :with => /^[a-z A-Z0-9]+$/, 
+											:message => "only aplhanumerics and spaces are allowed", :if => :validate_password?
+  validates_length_of :password, :in => 6..15, :if => :validate_password?
+
+  before_save :hash_password
+
+  attr_accessor :updated_password
+
+  def validate_password?
+    updated_password || new_record?
+  end
+
+  def hash_password
+    if validate_password?
+      self.password = Digest::SHA1.hexdigest(self.password)
+    end
+  end
+
+end

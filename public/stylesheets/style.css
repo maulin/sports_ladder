@@ -1,0 +1,126 @@
+body {
+  font-family: Helvetica, Arial, sans-serif;
+	background-color: #A0AEC1;
+}
+#content {
+	background-color: #fff;
+	width: 100%;
+	min-width: 800px;
+	min-height: 400px;
+	padding: 5px;
+	overflow: hidden;
+}
+#title{
+	background-color: #495E88;
+	color: #fff;
+}
+#heading{
+	background-color: #EDBD3E;
+	color: #fff;
+}
+#left {
+	float: left;
+	background-color: #EDBD3E;
+	color: #495E88;
+	width: 20%;
+	padding-bottom: 9999px;
+	margin-bottom: -9999px;
+}
+#msg{
+	float: left;
+	width: 60%;
+	background-color: #495E88;
+	color: #EDBD3E;
+	padding-bottom: 9999px;
+	margin-bottom: -9999px;
+}
+#msgblue{
+	float: left;
+	width: 80%;
+ 	background-color: #495E88;
+	color: #EDBD3E;
+	padding-bottom: 9999px;
+	margin-bottom: -9999px;
+}
+#msgwhite{
+	float: left;
+	width: 60%;
+	padding-bottom: 9999px;
+	margin-bottom: -9999px;
+	padding-left: 10px;
+}
+#comment{
+	float: left;
+	width: 80%;
+	background-color: #495E88;
+	color: #EDBD3E;
+	padding-bottom: 9999px;
+	margin-bottom: -9999px;
+}
+#post{
+	float: left;
+	width: 100%;
+	background-color: #fff;
+	padding-bottom: 9999px;
+	margin-bottom: -9999px;
+}
+#right {
+	float: left;
+	width: 20%;
+	color: #495E88;
+	background-color: #EDBD3E;
+	padding-bottom: 9999px;
+	margin-bottom: -9999px;
+}
+#stats {
+	float: left;
+	width: 20%;
+	color: #495E88;
+	background-color: #EDBD3E;
+	padding-bottom: 9999px;
+	margin-bottom: -9999px;
+}
+#notification {
+  border: 5px solid #9c9;
+  background-color: #cfc;
+  padding: 5px;
+  margin: 10px 0;
+}
+.fieldWithErrors {
+  border: 5px solid #f66;
+}
+#login_logout {
+  float: right;
+  font-size: smaller;
+}
+#navigation {
+  float: center;
+  list-style: none;
+  padding: 5px 0;
+  margin: 0;
+  text-align: center;
+}
+#navigation li {
+  color: #495E88;
+  display: inline;
+  padding: 0 5px;
+}
+h1 {
+	font-family: Helvetica;
+	font-size: 27px;
+}
+h2 {
+	font-family: Helvetica;
+	font-size: 26px;
+	letter-spacing: -1px;
+}
+h3 {
+	font-family: Georgia;
+	font-size: 24px;
+	letter-spacing: 3px;
+	font-variant: small-caps;
+	font-weight: normal;
+}
+#links{
+  color: #EDBD3E;
+}

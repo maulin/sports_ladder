@@ -1,0 +1,4 @@
+class Statistic < ActiveRecord::Base
+	belongs_to :ladder
+	belogs_to :player
+end

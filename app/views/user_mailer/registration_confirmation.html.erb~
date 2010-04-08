@@ -1,0 +1,6 @@
+Hi <%= "#{@player.first_name}" %>
+Thank you for registering at Sports Ladder.
+Your login details are as follows.
+
+Username: <%= "#{@player.login}" %>
+Password: <%= "#{@player.password}" %>

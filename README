@@ -1,0 +1,18 @@
+Are you looking for an efficient, organized ranking system for group sporting events and tournaments?
+
+Sports Ladder is an internet-based ladder system that currently supports tennis and racket ball ladders, with plans to track to additional sports in the future. Keep tabs on scores, or take it one step further and challenge your opponents to a match right from the website. Settings for each ladder are completely customizable, and can be changed any time by the ladder administrator. Lastly, connect to other ladder participants with messages in a particular ladder's comments section.
+
+
+This program and entire repository is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+

@@ -1,0 +1,30 @@
+<div id="content">
+
+  <div id="tertiaryContent">
+    <div class="xbg"></div>
+  </div>
+
+  <div id="primaryContentContainer">
+    <div id="primaryContent">
+      <h2>Login</h2>
+	<% form_tag session_path do %>
+	  <p>
+	    <label>Username:</label>
+	    <%= text_field_tag 'login' %>
+	  </p>
+	  <p>
+	    <label>Password:</label>
+	    <%= password_field_tag 'password' %>
+	  </p>
+	  <p><%= submit_tag 'Login' %></p>
+	<%end%>
+	<%= link_to "Forgot password?", forgot_password_path %>
+    </div>
+  </div>
+
+<div id="secondaryContent">
+  <div class="xbg"></div>
+</div>
+<div class="clear"></div>
+
+</div>

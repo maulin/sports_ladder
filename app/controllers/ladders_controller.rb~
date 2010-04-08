@@ -1,0 +1,177 @@
+class LaddersController < ApplicationController
+  before_filter :login_required, :only => [:new, :create]
+  
+  def index
+    @ladders = Ladder.find(:all)
+    @players = Player.count
+    @challenges = Challenge.count
+  end
+	
+	def new
+		@ladder = Ladder.new
+	end
+
+	def create
+		@ladder = Ladder.new(params[:ladder])
+		if @ladder.save
+			@ladder.statistics.create(
+			:player_id => @current_player.id,
+			:highest_rank => 1,
+			:lowest_rank => 1,
+			:current_rank => 1,
+			:is_challenged => 0,
+			:last_chal_player_id => 0,
+			:role => 1)
+			flash[:notice] = "Ladder creation succeeded."
+			redirect_to ladders_path
+		else
+			render :action => 'new'
+		end
+	end
+	
+	def show
+		@ladder = Ladder.find(params[:id])
+		@ranked = Statistic.find(:all, :order => "current_rank ASC", 
+		:conditions=>"ladder_id = #{@ladder.id} and current_rank != 0", :include => :player)
+		@unranked = Statistic.find(:all, :order => "current_rank ASC", 
+		:conditions=>"ladder_id = #{@ladder.id} and current_rank = 0", :include => :player)
+		@challenges = Challenge.find(:all, :order => "created_at DESC",
+		:conditions => "ladder_id = #{@ladder.id} and score is NULL", :include => [:challenger, :defender])
+		@tot_chall = Challenge.count(:conditions => ["ladder_id = ?", params[:id]])
+		
+		statistic = player_ladder(@ladder)
+
+		if !statistic.nil?
+			@joined = true
+			if statistic.role == 1
+				@administer = true
+			else
+				@administer = false
+			end
+		else
+			@joined = false
+		end
+	end
+
+	def edit
+		@ladder = Ladder.find(params[:id])
+	end
+
+  def update
+    @ladder = Ladder.find(params[:id])
+    if @ladder.update_attributes(params[:ladder])
+      flash[:notice] = "Ladder settings updated sucessfully."
+      redirect_to ladder_path(@ladder)
+    else
+      render :action => :edit
+    end
+  end
+
+  def rerank_players
+    @ladder = Ladder.find(params[:id])
+		@stats = Statistic.find_by_sql("select * from statistics where ladder_id = #{@ladder.id} 
+		order by case current_rank when 0 then 9999 else current_rank end")
+    count = Statistic.count(:conditions => "ladder_id = #{@ladder.id}")
+    @ranks = "No Change".to_a + (0..count).to_a
+    
+  end
+
+#there must be a better way to do this.
+
+  def rerank
+    @current_ranks = params[:current_ranks]
+    @stat_ids = params[:stat_ids]
+    @stat_ids.reverse! if !@stat_ids.nil?
+		@ladder = Ladder.find(params[:id])
+
+    @current_ranks.each do |r|
+      if r != "No Change" and r != "0"
+				if !@stat_ids.blank? and !@stat_ids.nil?
+	  			stat_id = @stat_ids.pop
+	  			stats = Statistic.find(stat_id)
+					if stats.current_rank == 0
+						Statistic.update(stat_id, {:highest_rank => r})
+						Statistic.update(stat_id, {:lowest_rank => r})
+					else
+	  				if stats.highest_rank > r.to_i
+	    				Statistic.update(stat_id, {:highest_rank => r})
+	  				end
+	  				if stats.lowest_rank < r.to_i
+	    				Statistic.update(stat_id, {:lowest_rank => r})
+	  				end
+					end
+					#Everyone moves down
+					if r.to_i < stats.current_rank or stats.current_rank == 0
+
+						if stats.current_rank == 0
+							players = Statistic.find(:all, :conditions => "current_rank >= #{r}	and ladder_id = #{@ladder.id}")
+						else
+							players = Statistic.find(:all, :conditions => "current_rank >= #{r} and current_rank < #{stats.current_rank}
+							and ladder_id = #{@ladder.id}")
+						end
+
+						players.each do |p|
+							Statistic.update(p.id, {:current_rank => p.current_rank + 1})
+							if p.highest_rank > p.current_rank + 1
+								Statistic.update(p.id, {:highest_rank => p.current_rank + 1})
+							end
+							if p.lowest_rank < p.current_rank + 1
+								Statistic.update(p.id, {:lowest_rank => p.current_rank + 1})
+							end
+						end
+					#Everyone moves up
+					elsif r.to_i > stats.current_rank and stats.current_rank != 0
+						players = Statistic.find(:all, :conditions => "current_rank <= #{r} and current_rank > #{stats.current_rank}
+						and ladder_id = #{@ladder.id}")
+
+						players.each do |p|
+							Statistic.update(p.id, {:current_rank => p.current_rank - 1})
+							if p.highest_rank > p.current_rank - 1
+								Statistic.update(p.id, {:highest_rank => p.current_rank - 1})
+							end
+							if p.lowest_rank < p.current_rank - 1
+								Statistic.update(p.id, {:lowest_rank => p.current_rank - 1})
+							end
+						end
+					end
+	  			Statistic.update(stat_id, {:current_rank => r})
+				end
+			elsif r == "0"
+				if !@stat_ids.blank? and !@stat_ids.nil?
+	  			stat_id = @stat_ids.pop
+	  			stats = Statistic.find(stat_id)
+					rank = stats.current_rank
+					Statistic.update(stat_id, {:current_rank => r})
+					players = Statistic.find(:all, :conditions => "current_rank > #{rank} and ladder_id = #{@ladder.id}")
+					players.each do |p|
+						Statistic.update(p.id, {:current_rank => p.current_rank - 1})
+						if p.highest_rank > p.current_rank - 1
+							Statistic.update(p.id, {:highest_rank => p.current_rank - 1})
+						end
+						if p.lowest_rank < p.current_rank - 1
+							Statistic.update(p.id, {:lowest_rank => p.current_rank - 1})
+						end
+					end
+				end
+      end
+    end
+    redirect_to ladder_path(@ladder)
+  end
+
+	def reset_stats
+		@ladder = Ladder.find(params[:id])
+		Statistic.update_all("highest_rank = current_rank, lowest_rank = current_rank", "ladder_id = #{@ladder.id}")
+		redirect_to ladder_path(@ladder)
+	end
+
+	def destroy
+		@ladder = Ladder.find(params[:id])
+		Statistic.delete_all("ladder_id = #{@ladder.id}")
+		Comment.delete_all("ladder_id = #{@ladder.id}")
+		Challenge.delete_all("ladder_id = #{@ladder.id}")
+		Ladder.delete(@ladder.id)
+		flash[:notice] = "deleted"
+		redirect_to ladders_path
+	end
+
+end

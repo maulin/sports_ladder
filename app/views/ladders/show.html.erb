@@ -1,0 +1,95 @@
+<div id="content">
+
+  <div id="tertiaryContent">
+    <h3>Statistics</h3>
+    <ul>
+			<li>Sport : <%= @ladder.sport %></li>
+      <li>Active since : <%= @ladder.created_at.to_s(:short) %></li>
+      <li>Number of players : <%= @ladder.players.size %></li>
+      <li>Challenges made : <%= @tot_chall %></li>
+      <li>Advance by : <%= @ladder.rungs %> rungs</li>
+      <li>Cooldown : <%= @ladder.cooldown %> days</li>
+      <% if @ladder.sport == "Tennis" %>
+				<li>Best of : <%= @ladder.best_of %> sets</li>
+      <% else %>
+				<li>Best of : <%= @ladder.best_of %> games</li>
+      <% end %>
+    </ul>
+
+    <h3> Rankings </h3>
+    <table>
+      <tr class="rowH">
+	<th>Name</th>
+	<th>Rank</th>
+      </tr>
+    <% @ranked.each do |r| %>
+      <tr class="rowA">
+	<td><%= "#{r.player.first_name} #{r.player.last_name}" %></td>
+	<td><%= "#{r.current_rank}" %></td>
+      </tr>
+    <%end%>
+    <% @unranked.each do |r| %>
+      <tr class="rowA">
+	<td><%= "#{r.player.first_name} #{r.player.last_name}" %></td>
+	<td><%= "Unranked" %></td>
+      </tr>
+    <%end%>
+    </table>
+    <div class="xbg"></div>
+  </div>
+
+  <div id="primaryContentContainer">
+    <div id="primaryContent">
+      <h2><%= "Welcome to #{@ladder.name}" %></h2>
+      <h3>Open challenges</h3>
+  
+      <table>
+	<tr class="rowH">
+	  <th>Challenger</th>
+	  <th>Defender</th>
+	  <th>Challenge date</th>
+		<% if @administer %>
+			<th>Cancel challenge</th>
+		<% end %>
+	</tr>
+      <% @challenges.each do |c| %>
+	<tr class="rowA">
+	  <td><%= "#{c.challenger.first_name} #{c.challenger.last_name}" %></td>
+	  <td><%= "#{c.defender.first_name} #{c.defender.last_name}" %></td>
+	  <td><%= "#{c.created_at.to_s(:short)}" %></td>
+		<% if @administer %>
+			<td><%= link_to "Cancel challenge", ladder_challenge_path(@ladder.id, c.id), :method => "delete",
+			:confirm => "Are you sure you want to cancel this challenge?" %></td>
+		<% end %>
+	</tr>
+      <%end%>
+      </table>
+			
+      <h3>Ladder message</h3>
+      <%= simple_format(sanitize(@ladder.description)) %> <br>
+    </div>
+  </div>
+
+  <div id="secondaryContent">
+    <h3> Navigation </h3>
+    <ul>
+    <% if ! @joined %>
+      <li><%= link_to 'Join this ladder', ladder_statistics_path(@ladder), :method => "post" %></li>
+    <% else %>
+      <li><%= link_to 'Challenge someone', new_ladder_challenge_path(@ladder), :method => "get" %></li>
+      <li><%= link_to 'View challenges', ladder_challenges_path(@ladder), :method => "get" %></li>
+      <li><%= link_to 'Comments', ladder_comments_path(@ladder.id), :method => "get" %></li>
+    <%end%>
+    <% if @administer %>
+      <li><%= link_to 'Administer', edit_ladder_path(@ladder.id), :method => "get" %></li>
+    <%end%>
+    </ul>
+    <div class="xbg"></div>
+  </div>
+  <div class="clear"></div>
+  
+</div>
+
+
+
+

@@ -1,0 +1,40 @@
+require 'rubygems'
+require 'net/ssh'
+require 'net/sftp'
+
+desc "copies remote db to local db"
+
+task :copy_remote_db do
+  puts "Connecting to maulinpathare.com"
+  Net::SSH.start("maulinpathare.com", "maulinpa") do |ssh|
+    puts "Connected..."
+    puts "Generating mysqldump..."
+#    ssh.exec!("mysqldump --verbose -u maulinpa_sluser -psluser --databases maulinpa_slprod | gzip > slprod.gz")
+    puts "Database dump complete..."
+    ssh.sftp.connect do |sftp|
+#      sftp.download!("/home2/maulinpa/slprod.gz", "/home/maulin/projects/sports_ladder/slprod.gz")
+      puts "File ftp'd"
+    end
+  end
+  
+  puts "unziping file..."
+#  `gunzip /home/maulin/projects/sports_ladder/slprod.gz`
+  puts "unziping complete..."
+  
+  new_file = File.new('/home/maulin/projects/sports_ladder/slprod.sql', 'w')
+  File.open('/home/maulin/projects/sports_ladder/slprod', 'r') do |f|
+    while line = f.gets
+      line.gsub!('maulinpa_slprod', 'sldev')
+#      line.gsub!("`", "'")
+      new_file.puts line
+    end
+  end
+  new_file.close
+
+  puts "Creating db..."
+  %x(mysql --user=sluser --password=sluser < /home/maulin/projects/sports_ladder/slprod.sql)
+  puts "DB created"
+  
+#  `rm -f slprod*`  
+
+end

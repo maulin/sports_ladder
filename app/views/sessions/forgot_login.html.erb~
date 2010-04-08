@@ -1,0 +1,16 @@
+<div id="heading">
+  <h2>Forgot login.</h2>
+</div>
+
+Enter the email address you registered with.<br><br>
+<% form_tag(reset_password_path, :method => "put") do %>
+  Email:<br>
+  <%= text_field_tag :email %><br><br>
+
+  <%= submit_tag "Reset password" %>
+<% end %>
+
+<p>
+Once you click the "Reset login" button, your password will be reset.<br>
+Your new password will be emailed to the address you registered with.
+</p>

@@ -1,0 +1,6 @@
+db/schema.rb
+log/*
+tmp/*
+config/database.yaml
+config/environment.rb
+lib/tasks/*

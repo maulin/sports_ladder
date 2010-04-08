@@ -1,0 +1,38 @@
+<div id="content">
+
+  <div id="tertiaryContent">
+    <div class="xbg"></div>
+  </div>
+
+  <div id="primaryContentContainer">
+    <div id="primaryContent">
+      <h2>Post a new comment.</h2>
+	<% form_for @comment, :url => {:controller => "comments", :action => "create", :ladder_id => @ladder} do |f| %>
+	  Enter your comment here:<br><br>
+	  <%= f.text_area :comment %><br><br>
+		<i>use of HTML tags like &lt br &gt, &lt ul &gt is allowed</i><br><br>
+	  <p>
+	    <%= hidden_field_tag 'question', "#{@spam.question}" %>
+	    <%= "#{@spam.question}" %><br>
+	    <%= text_field_tag :answer %>
+	  </p>
+	  <%= submit_tag 'Post comment' %>
+	<% end %>
+    </div>
+  </div>
+
+  <div id="secondaryContent">
+    <h3 align="center"> Navigation </h3>
+    <ul>
+      <li><%= link_to "Back to #{@ladder.name}", @ladder %></li>
+    </ul>
+    <div class="xbg"></div>
+  </div>
+  <div class="clear"></div>
+
+</div>
+
+
+
+
+

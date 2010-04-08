@@ -1,0 +1,41 @@
+<%= error_messages_for 'ladder' %>
+<div id="left">
+  <h3 align="center"> Navigation </h3>
+  <ul>
+    <li><%= link_to "Back to #{@ladder.name}", @ladder %></li>
+  </ul>
+</div>
+<% form_for(@ladder) do |f| %>
+	<p>
+	Ladder Name:<br>
+	<%= f.text_field :name %><br>
+	<font color="#625D5D"><small><i>This is the name of your ladder.</i></small></font>
+	</p>
+	<p>
+	Sport:<br>
+	<%= f.select(:sport, ["Tennis", "Racquet Ball"]) %><br>
+	<font color="#625D5D"><small><i>The sport that will be played.</i></small></font>
+	</p>
+	<p>
+	Best of:<br>
+	<%= f.text_field :best_of %><br>
+	<font color="#625D5D"><small><i>Number of games/sets/matches to be played in a challenge.</i></small></font>
+	</p>
+	<p>
+	Cooldown:<br>
+	<%= f.text_field :cooldown %><br>
+	<font color="#625D5D"><small><i>Number of days to wait before challenging the same player again.</i></small></font>
+	</p>
+	<p>
+	Rungs:<br>
+	<%= f.text_field :rungs %><br>
+	<font color="#625D5D"><small><i>Number of players above the challenger that can be challenged.</i></small></font>
+	</p>
+	<p>
+	Description:<br>
+	<%= f.text_area :description %>
+	</p>
+	<p>
+	<%= submit_tag "Save"%>
+	</p>
+<% end %>
