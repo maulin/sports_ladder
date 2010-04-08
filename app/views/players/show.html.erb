@@ -26,27 +26,22 @@
 
       <h3>My challenges</h3>
       <table>
-      <tr class="rowH">
-	<th>Challenger</th>
-	<th>Defender</th>
-	<th>Ladder name</th>
-	<th>Challenge date</th>
-	<th>Enter score</th>
-	<th>Cancel challenge</th>
-      </tr>
-      <% @challenges.each do |c| %>
-      <tr class="rowA">
-	<td><%= "#{c.challenger.first_name} #{c.challenger.last_name}" %></td>
-	<td><%= "#{c.defender.first_name} #{c.defender.last_name}" %></td>
-	<td><%= "#{c.ladder.name}" %></td>
-	<td><%= "#{c.created_at.to_s(:short)}" %></td>
-	<td><%= link_to 'Enter score', edit_ladder_challenge_path(c.ladder.id, c.id) %></td>
-	<% if c.challenger_id == @current_player.id %>
-			<td><%= link_to "Cancel challenge", ladder_challenge_path(c.ladder.id, c.id), :method => "delete",
-			:confirm => "Are you sure you want to cancel this challenge?" %></td>
-	<% end %>
-      </tr>
-      <%end%>
+  <tr class="rowH">
+	  <th>Challenger</th>
+	  <th>Defender</th>
+	  <th>Ladder name</th>
+	  <th>Challenge date</th>
+	  <th>Enter score</th>
+  </tr>
+  <% @challenges.each do |c| %>
+  <tr class="rowA">
+	  <td><%= "#{c.challenger.first_name} #{c.challenger.last_name}" %></td>
+	  <td><%= "#{c.defender.first_name} #{c.defender.last_name}" %></td>
+	  <td><%= "#{c.ladder.name}" %></td>
+	  <td><%= "#{c.created_at.to_s(:short)}" %></td>
+	  <td><%= link_to 'Enter score', edit_ladder_challenge_path(c.ladder.id, c.id) %></td>
+  </tr>
+  <%end%>
       </table>
     </div>
   </div>
