@@ -1,0 +1,8 @@
+require 'pp'
+
+desc "cancels challenges that have not been played for 10 days"
+
+task :coc => :environment do
+  oc = Challenge.find(:all, :conditions => "challenge_end_date > str_to_date('#{DateTime.now.strftime('%m%d%y')}', '%m%d%y')")
+  pp oc
+end

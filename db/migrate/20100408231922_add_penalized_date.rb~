@@ -1,0 +1,9 @@
+class AddPenalizedDate < ActiveRecord::Migration
+  def self.up
+    add_column :penalized_date, :statistics, :timestamp
+  end
+
+  def self.down
+    remove_column :penalized_date, :statistics,  
+  end
+end
