@@ -24,6 +24,13 @@ class ChallengesController < ApplicationController
     	and player_id = #{@current_player.id}")
     @challenger = @challenger_stat.player
     
+    if @challenger_stat.is_penalized
+      pd = @challenger_stat.penalized_date.to_date
+      days = ((pd + 5.days) - DateTime.now).to_i
+      flash[:notice] = "You have been penalized, you cannot issue challenges for #{days} days"
+      redirect_to ladder_path(@ladder)
+    end
+    
     if @challenger_stat.current_rank != 0
       @stats = Statistic.find(:all, 
       :conditions => "ladder_id = #{@ladder.id} 
@@ -66,7 +73,7 @@ class ChallengesController < ApplicationController
       :challenger_id => @current_player.id,
       :defender_id => params[:challenge][:defender_id],
       :ladder_id => @ladder.id,
-      :challenge_end_date => Time.now)
+      :challenge_end_date => Time.now + 10.days)
       @challenger_stat.update_attribute(:is_challenged, 1)
       @defender_stat.update_attribute(:is_challenged, 1)
 
