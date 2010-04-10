@@ -26,8 +26,8 @@ class ChallengesController < ApplicationController
     
     if @challenger_stat.is_penalized == 1
       pd = @challenger_stat.penalized_date.to_date
-      days = ((pd + 5.days) - DateTime.now).to_i
-      flash[:notice] = "You have been penalized, you cannot issue challenges for #{days} days"
+      d = (pd - DateTime.now.beginning_of_day).to_i
+      flash[:notice] = "You have been penalized, you cannot issue challenges for #{d} days"
       redirect_to ladder_path(@ladder)
     end
     

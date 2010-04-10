@@ -3,4 +3,5 @@ log/*
 tmp/*
 config/database.yaml
 config/environment.rb
-lib/tasks/*
+config/environments/*
+lib/tasks/maulin.rake
