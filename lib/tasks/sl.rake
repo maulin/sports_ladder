@@ -3,7 +3,7 @@ require 'pp'
 desc "cancels challenges that have not been played for 10 days"
 
 task :cancel_outstanding_challenge => :environment do
-  oc = Challenge.find(:all, :conditions => "challenge_end_date > str_to_date('#{DateTime.now.strftime('%m%d%y')}', '%m%d%y')")
+  oc = Challenge.find(:all, :conditions => "challenge_end_date = str_to_date('#{DateTime.now.strftime('%m%d%y')}', '%m%d%y')")
   
   oc.each do |c|
     chal_stat = Statistic.find(:first, :conditions => "player_id = #{c.challenger_id} and ladder_id = #{c.ladder_id}")
@@ -16,7 +16,7 @@ task :cancel_outstanding_challenge => :environment do
 end
 
 task :remove_penalty => :environment do
-  pplayer = Statistic.find(:all, :conditions => "penalized_date > str_to_date('#{DateTime.now.strftime('%m%d%y')}', '%m%d%y')")
+  pplayer = Statistic.find(:all, :conditions => "penalized_date = str_to_date('#{DateTime.now.strftime('%m%d%y')}', '%m%d%y')")
   
   pplayer.each do |p|
     p.is_penalized = 0
