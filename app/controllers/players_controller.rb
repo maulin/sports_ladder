@@ -16,7 +16,7 @@ class PlayersController < ApplicationController
     @spam = SpamQuestions.find(:first, :conditions => ["question = ?", question])
     if @spam.answer == answer.downcase
       if @player.save
-	#UserMailer.deliver_registration_confirmation(@player, password)
+	UserMailer.deliver_registration_confirmation(@player, password)
 	flash[:notice] = "Registration Sucessfull!"
 	redirect_to new_session_path
       else
