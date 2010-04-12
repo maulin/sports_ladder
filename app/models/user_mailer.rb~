@@ -34,10 +34,10 @@ class UserMailer < ActionMailer::Base
     body		:player => player
   end
 
-  def new_comment(player, message, ladder)
+  def new_comment(commenter, player, ladder, comment)
     recipients		player.email
     from		"donotreply@sportsladder.com"       
     subject		"New comment"
-    body		:player => player, :message => message, :ladder => ladder
+    body		:player => player, :comment => comment, :ladder => ladder, :commenter => commenter
   end
 end
