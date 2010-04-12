@@ -77,8 +77,8 @@ class ChallengesController < ApplicationController
       @challenger_stat.update_attribute(:is_challenged, 1)
       @defender_stat.update_attribute(:is_challenged, 1)
 
-      #UserMailer.deliver_challenger_challenge_issued(@challenger, @defender, @ladder)
-      #UserMailer.deliver_defender_challenge_issued(@challenger, @defender, @ladder)
+      UserMailer.deliver_challenger_challenge_issued(@challenger, @defender, @ladder)
+      UserMailer.deliver_defender_challenge_issued(@challenger, @defender, @ladder)
 
       flash[:notice] = "Challenge created sucessfully"
     else
@@ -164,7 +164,7 @@ class ChallengesController < ApplicationController
     Statistic.update(chal_stat.id, {:is_challenged => 0})
     Statistic.update(def_stat.id, {:is_challenged => 0})
     Challenge.delete(challenge.id)
-    #UserMailer.deliver_cancel_challenge(@challenger, @defender, @ladder)
+    UserMailer.deliver_cancel_challenge(@challenger, @defender, @ladder)
     
     flash[:notice] = "Challenge deleted."
     #redirect_to ladder_path(@ladder)

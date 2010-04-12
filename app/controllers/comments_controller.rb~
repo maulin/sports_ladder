@@ -3,7 +3,8 @@ class CommentsController < ApplicationController
 
 	def index
 		#@comments = Comment.find(:all, :conditions=>"ladder_id = #{params[:ladder_id]}", :order=>"created_at DESC", :limit => 20)
-		@comments = Comment.find(:all, :conditions=>"ladder_id = #{params[:ladder_id]}", :order=>"created_at DESC", :limit => 20)
+		@comments = Comment.paginate(:per_page => 10, :page => params[:page], 
+		:conditions=>"ladder_id = #{params[:ladder_id]}", :order=>"created_at DESC", :limit => 20)
 		@ladder = Ladder.find(params[:ladder_id])
 	end		
 
@@ -64,7 +65,7 @@ def update
 		    :comment => comment)
 		    flash[:notice] = "Post sucessfull."
 				@players.each do |p|
-					UserMailer.deliver_new_comment(@current_player, p.player, @ladder, comment)
+					#UserMailer.deliver_new_comment(@current_player, p.player, @ladder, comment)
 				end
 		    redirect_to ladder_comments_path(@ladder.id)
 		  else

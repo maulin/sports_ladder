@@ -16,7 +16,7 @@ class PlayersController < ApplicationController
     @spam = SpamQuestions.find(:first, :conditions => ["question = ?", question])
     if @spam.answer == answer.downcase
       if @player.save
-	UserMailer.deliver_registration_confirmation(@player, password)
+	#UserMailer.deliver_registration_confirmation(@player, password)
 	flash[:notice] = "Registration Sucessfull!"
 	redirect_to new_session_path
       else
@@ -44,30 +44,30 @@ def edit
   @spam = SpamQuestions.find(rand_quest_id)
 end
 
-def update
-  @player = Player.find(@current_player.id)
-  password = @player.password
-  if params[:player][:password] != password
-    @player.updated_password = true
-  else
-    @player.updated_password = false
-  end
-  
-	question = params[:question]
-  answer = params[:answer]
-  @spam = SpamQuestions.find(:first, :conditions => ["question = ?", question])
-  if @spam.answer == answer.downcase
-  	if @player.update_attributes(params[:player])
-    	flash[:notice] = "Personal information updated sucessfully."
-    	redirect_to player_path(@current_player)
-  	else
-    	render :action => :edit
-  	end
-  else
-  	flash[:notice] = "Incorrect answer. Please try again"
-  	render :action => :edit
+	def update
+		@player = Player.find(@current_player.id)
+		password = @player.password
+		if params[:player][:password] != password
+		  @player.updated_password = true
+		else
+		  @player.updated_password = false
+		end
+		
+		question = params[:question]
+		answer = params[:answer]
+		@spam = SpamQuestions.find(:first, :conditions => ["question = ?", question])
+		if @spam.answer == answer.downcase
+			if @player.update_attributes(params[:player])
+		  	flash[:notice] = "Personal information updated sucessfully."
+		  	redirect_to player_path(@current_player)
+			else
+		  	render :action => :edit
+			end
+		else
+			flash[:notice] = "Incorrect answer. Please try again"
+			render :action => :edit
+		end
 	end
-end
 
   def show_stats
     @ladder = Ladder.find(params[:ladder_id])
