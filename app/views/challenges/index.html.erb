@@ -29,8 +29,8 @@
       <%end%>
       <td><%= "#{c.defender.first_name} #{c.defender.last_name}" %></td>
       <td><%= "#{c.score}" %></td>
-      <td><%= "#{c.created_at.to_s(:short)}" %></td>
-      <td><%= "#{c.updated_at.to_s(:short)}" %></td>
+      <td><%= "#{c.created_at.strftime("%b-%d-%Y")}" %></td>
+      <td><%= "#{c.updated_at.strftime("%b-%d-%Y")}" %></td>
     </tr>
     <%end%>
   </table>

@@ -31,6 +31,7 @@
 	  <th>Defender</th>
 	  <th>Ladder name</th>
 	  <th>Challenge date</th>
+	  <th>Challenge end date</th>
 	  <th>Enter score</th>
   </tr>
   <% @challenges.each do |c| %>
@@ -38,7 +39,8 @@
 	  <td><%= "#{c.challenger.first_name} #{c.challenger.last_name}" %></td>
 	  <td><%= "#{c.defender.first_name} #{c.defender.last_name}" %></td>
 	  <td><%= "#{c.ladder.name}" %></td>
-	  <td><%= "#{c.created_at.to_s(:short)}" %></td>
+	  <td><%= "#{c.created_at.strftime("%b-%d-%Y")}" %></td>
+	  <td><%= "#{c.challenge_end_date.strftime("%b-%d-%Y")}" %></td>
 	  <td><%= link_to 'Enter score', edit_ladder_challenge_path(c.ladder.id, c.id) %></td>
   </tr>
   <%end%>
