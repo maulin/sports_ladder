@@ -65,7 +65,7 @@ def update
 		    :comment => comment)
 		    flash[:notice] = "Post sucessfull."
 		    comment = comment.split("\n").join("||")
- 		    system "rake send_mailing L=#{@ladder.id} CP=#{@current_player.id} C='#{comment}' &"
+ 		    system "rake send_mailing L=#{@ladder.id} CP=#{@current_player.id} C='#{comment}' >> send_email.log &"
 #				@players.each do |p|
 #					UserMailer.deliver_new_comment(@current_player, p.player, @ladder, comment)
 #				end
