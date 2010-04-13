@@ -7,7 +7,7 @@
 <div id="primaryContentContainer">
   <div id="primaryContent">
     <h3>Completed challenges</h3>
-	<%= will_paginate @challenges %>
+	<%= will_paginate @challenges %><br>
     <table>
     <tr class="rowH">
       <th>Ladder</th>
