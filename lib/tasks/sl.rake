@@ -24,3 +24,22 @@ task :remove_penalty => :environment do
     p.save
   end
 end
+  
+desc "send email when new comment is added"
+task :send_mailing => :environment do
+
+  current_player_id = ENV['CP']
+  ladder_id = ENV['L']
+  comment = ENV['C']
+  comment = comment.gsub("||", "\n")
+  
+  current_player = Player.find(current_player_id)
+  players = Statistic.find(:all, :conditions => "ladder_id = #{ladder_id}", :include => [:player])
+
+  players.each do |p|
+  	UserMailer.deliver_new_comment(current_player, p.player, ladder, comment)
+	end
+    
+end
+  
+

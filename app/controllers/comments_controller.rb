@@ -58,15 +58,17 @@ def update
 		answer = params[:answer]
 		@spam = SpamQuestions.find(:first, :conditions => ["question = ?", question])
 		comment = params[:comment][:comment]
+		comment = comment.split("\n").join("||")
 		if @spam.answer == answer.downcase
 		  if Comment.create(
 		    :player_id => @current_player.id,
 		    :ladder_id => @ladder.id,
 		    :comment => comment)
 		    flash[:notice] = "Post sucessfull."
-				@players.each do |p|
-					UserMailer.deliver_new_comment(@current_player, p.player, @ladder, comment)
-				end
+ 		    system "rake send_mailing L=#{@ladder.id} CP=#{@current_player.id} C='#{comment}' &"
+#				@players.each do |p|
+#					UserMailer.deliver_new_comment(@current_player, p.player, @ladder, comment)
+#				end
 		    redirect_to ladder_comments_path(@ladder.id)
 		  else
 		    flash[:notice] = "Please try again."
