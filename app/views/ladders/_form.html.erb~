@@ -24,7 +24,7 @@
 
   <b>Description:</b><br>
   <%= f.text_area :description %><br><br>
-	<i>use of HTML tags like &lt br &gt, &lt ul &gt are allowed"</i><br><br>
+	<i>use of HTML tags like &lt br &gt, &lt ul &gt is allowed</i><br><br>
 
   <%= submit_tag "Save"%>
 </p>

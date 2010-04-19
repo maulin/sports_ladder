@@ -58,7 +58,11 @@
 	  <td><%= "#{c.challenger.first_name} #{c.challenger.last_name}" %></td>
 	  <td><%= "#{c.defender.first_name} #{c.defender.last_name}" %></td>
 	  <td><%= "#{c.created_at.strftime("%b-%d-%Y")}" %></td>
-	  <td><%= "#{c.challenge_end_date.strftime("%b-%d-%Y")}" %></td>
+	  <% if c.challenge_end_date.nil? %>
+  	  <td><%= "No end date!" %></td>	  
+  	<% else %>
+  	  <td><%= "#{c.challenge_end_date.strftime("%b-%d-%Y")}" %></td>
+  	<% end %>
 		<% if @administer %>
 			<td><%= link_to "Cancel challenge", ladder_challenge_path(@ladder.id, c.id), :method => "delete",
 			:confirm => "Are you sure you want to cancel this challenge?" %></td>

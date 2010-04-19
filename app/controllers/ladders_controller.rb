@@ -2,7 +2,8 @@ class LaddersController < ApplicationController
   before_filter :login_required, :only => [:new, :create]
   
   def index
-    @ladders = Ladder.find(:all)
+    #@ladders = Ladder.find(:all)
+    @ladders = Ladder.find_ladder_stats
     @players = Player.count
     @challenges = Challenge.count
   end

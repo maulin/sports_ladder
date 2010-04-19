@@ -57,8 +57,12 @@
 	<tr class="rowA">
 	  <td><%= "#{c.challenger.first_name} #{c.challenger.last_name}" %></td>
 	  <td><%= "#{c.defender.first_name} #{c.defender.last_name}" %></td>
-	  <td><%= "#{c.created_at.to_s(:long)}" %></td>
-	  <td><%= "#{c.challenge_end_date.to_s(:long)}" %></td>
+	  <td><%= "#{c.created_at.strftime("%b-%d-%Y")}" %></td>
+	  <% if c.challenge_end_date.nil? %>
+  	  <td><%= "No end date!" %></td>	  
+  	<% else %>
+  	  <td><%= "#{c.challenge_end_date.strftime("%b-%d-%Y")}" %></td>
+  	<% end %>
 		<% if @administer %>
 			<td><%= link_to "Cancel challenge", ladder_challenge_path(@ladder.id, c.id), :method => "delete",
 			:confirm => "Are you sure you want to cancel this challenge?" %></td>
@@ -73,19 +77,7 @@
   </div>
 
   <div id="secondaryContent">
-    <h3> Navigation </h3>
-    <ul>
-    <% if ! @joined %>
-      <li><%= link_to 'Join this ladder', ladder_statistics_path(@ladder), :method => "post" %></li>
-    <% else %>
-      <li><%= link_to 'Challenge someone', new_ladder_challenge_path(@ladder), :method => "get" %></li>
-      <li><%= link_to 'View challenges', ladder_challenges_path(@ladder), :method => "get" %></li>
-      <li><%= link_to 'Comments', ladder_comments_path(@ladder.id), :method => "get" %></li>
-    <%end%>
-    <% if @administer %>
-      <li><%= link_to 'Administer', edit_ladder_path(@ladder.id), :method => "get" %></li>
-    <%end%>
-    </ul>
+
     <div class="xbg"></div>
   </div>
   <div class="clear"></div>
