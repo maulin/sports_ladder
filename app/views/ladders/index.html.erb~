@@ -14,9 +14,10 @@
     <div id="primaryContent">
       <h2> About </h2>
       <p>
-        Are you looking for an efficient, organized ranking system for group sporting events and tournaments?<br><br>
-
-        Sports Ladder is an internet-based ladder system that currently supports tennis and racket ball ladders, with plans to track to additional sports in the future. 
+        Are you looking for an efficient, organized ranking system for group sporting events and tournaments?
+      </p>
+      <p>
+        Sports Ladder is an internet-based ladder system that currently supports tennis ladders, with plans to track to additional sports in the future. 
         Keep tabs on scores, or take it one step further and challenge your opponents to a match right from the website. Settings for each ladder are completely customizable, 
         and can be changed any time by the ladder administrator. Lastly, connect to other ladder participants with messages in a particular ladder's comments section.
       </P>

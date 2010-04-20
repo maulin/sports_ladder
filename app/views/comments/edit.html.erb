@@ -9,7 +9,7 @@
       <h2>Post a new comment.</h2>
 	<% form_for @comment, :url => {:controller => "comments", :action => "update", :ladder_id => @ladder} do |f| %>
 	  Enter your comment here:<br><br>
-	  <%= f.text_area :comment %><br><br>
+	  <%= f.text_area :comment, :size => "80x30" %><br><br>
 		<i>use of HTML tags like &lt br &gt, &lt ul &gt is allowed</i><br><br>
 	  <p>
 	    <%= hidden_field_tag 'question', "#{@spam.question}" %>

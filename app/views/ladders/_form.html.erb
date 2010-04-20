@@ -10,20 +10,20 @@
   <i>The sport that will be played.</i><br><br>
 
   <b>Best of:</b><br>
-  <%= f.text_field :best_of %><br>
+  <%= f.text_field :best_of, :size => 1, :maxlength => 1 %><br>
   <i>Number of games/sets/matches to be played in a challenge.</i><br><br>
 
   <b>Cooldown:</b><br>
-  <%= f.text_field :cooldown %><br>
+  <%= f.text_field :cooldown, :size => 1, :maxlength => 1 %><br>
   <i>Number of days to wait before challenging the same player again.<br>
 	Changing the cooldown will only affect new challenges.</i><br><br>
 
   <b>Rungs:</b><br>
-  <%= f.text_field :rungs %><br>
+  <%= f.text_field :rungs, :size => 1, :maxlength => 1 %><br>
   <i>Number of players above the challenger that can be challenged.</i><br><br>
 
   <b>Description:</b><br>
-  <%= f.text_area :description %><br><br>
+  <%= f.text_area :description, :size => "80x30" %><br><br>
 	<i>use of HTML tags like &lt br &gt, &lt ul &gt is allowed</i><br><br>
 
   <%= submit_tag "Save"%>
