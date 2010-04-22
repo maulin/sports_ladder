@@ -30,5 +30,14 @@ class Player < ActiveRecord::Base
       self.password = Digest::SHA1.hexdigest(self.password)
     end
   end
+  
+  def Player.find_ladders(player)
+    unless player.nil?
+      s = Statistic.find(:all, :select => :ladder_id, :conditions => {:player_id => player.id})
+      Ladder.find(s.collect!{|x| x.ladder_id})
+    else
+      nil
+    end
+  end
 
 end

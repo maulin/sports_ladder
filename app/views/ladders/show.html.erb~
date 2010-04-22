@@ -77,6 +77,31 @@
   </div>
 
   <div id="secondaryContent">
+    <h3> Navigation </h3>
+    <ul>
+    <% if ! @joined %>
+      <li><%= link_to 'Join this ladder', ladder_statistics_path(@ladder), :method => "post" %></li>
+    <% else %>
+      <li><%= link_to 'Challenge someone', new_ladder_challenge_path(@ladder), :method => "get" %></li>
+      <li><%= link_to 'View challenges', ladder_challenges_path(@ladder), :method => "get" %></li>
+      <li><%= link_to 'Comments', ladder_comments_path(@ladder.id), :method => "get" %></li>
+    <%end%>
+    <% if @administer %>
+      <li><%= link_to 'Administer', edit_ladder_path(@ladder.id), :method => "get" %></li>
+    <%end%>
+    </ul>
+    <br>
+
+    <h3> My Ladders </h3>
+    <ul>
+    <% if @player_ladders %>
+      <% @player_ladders.each do |pl| %>
+        <li><%= link_to "#{pl.name}", ladder_path(pl) %></li>
+      <% end %>
+    <% else %>
+      <li> You haven't joined any ladders </li>
+    <% end %>
+    </ul>
 
     <div class="xbg"></div>
   </div>

@@ -39,6 +39,7 @@ class LaddersController < ApplicationController
 		@challenges = Challenge.find(:all, :order => "created_at DESC",
 		:conditions => "ladder_id = #{@ladder.id} and score is NULL", :include => [:challenger, :defender])
 		@tot_chall = Challenge.count(:conditions => ["ladder_id = ?", params[:id]])
+		@player_ladders = Player.find_ladders(@current_player)
 		
 		statistic = player_ladder(@ladder)
 
