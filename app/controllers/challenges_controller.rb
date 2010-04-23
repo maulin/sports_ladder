@@ -4,14 +4,13 @@ class ChallengesController < ApplicationController
   def index
     if !params[:ladder_id].nil?
       @ladder = Ladder.find(params[:ladder_id])
-      @challenges = Challenge.paginate(:per_page => 10, :page => params[:page],
-     	:conditions => "ladder_id = #{@ladder.id} and score is not null", 
-      :order => "ladder_id DESC, updated_at DESC", :include => [:ladder, :challenger, :defender])
+      page = params[:page]
+      @challenges = Challenge.ladder_challenges(@ladder.id, page)
     elsif !params[:player_id].nil?
-      @player = Player.find(params[:player_id])
-			@challenges = Challenge.paginate(:per_page => 10, :page => params[:page],
-			:conditions => "(challenger_id = #{@player.id} or defender_id = #{@player.id}) and
-      score is not null", :order => "ladder_id DESC, updated_at DESC", :include => [:ladder, :challenger, :defender])
+      player_id = params[:player_id]
+      ladder_id = params[:ladder]
+      page = params[:page]
+			@challenges = Challenge.player_challenges(player_id, ladder_id, page)
     end
   end
 

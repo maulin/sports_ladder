@@ -83,7 +83,8 @@
       <li><%= link_to 'Join this ladder', ladder_statistics_path(@ladder), :method => "post" %></li>
     <% else %>
       <li><%= link_to 'Challenge someone', new_ladder_challenge_path(@ladder), :method => "get" %></li>
-      <li><%= link_to 'View challenges', ladder_challenges_path(@ladder), :method => "get" %></li>
+      <li><%= link_to 'View all challenges', ladder_challenges_path(@ladder), :method => "get" %></li>
+      <li><%= link_to 'View my challenges', player_challenges_path(@current_player, :ladder_id => "#{@ladder.id}"), :method => "get" %></li>
       <li><%= link_to 'Comments', ladder_comments_path(@ladder.id), :method => "get" %></li>
     <%end%>
     <% if @administer %>

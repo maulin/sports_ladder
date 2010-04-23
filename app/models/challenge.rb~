@@ -12,17 +12,30 @@ class Challenge < ActiveRecord::Base
 			best_of.times do |i|
 				sets[i+1] = score[j..j+2]
 				j = j + 3
-			end								
+			end
 		end
 
 		if sport == "Racquet Ball"
 			j = 0
 			best_of.times do |i|
-				sets[i+1] = score[j..j+1]
+				games[i+1] = score[j..j+1]
 				j = j + 2
 			end								
 		end
 
+	end
+	
+	def Challenge.player_challenges(player_id, ladder_id, page)
+	  Challenge.paginate(:per_page => 10, :page => page,
+		:conditions => "(challenger_id = #{player_id} or defender_id = #{player_id}) and
+    score is not null and ladder_id = #{ladder_id}", 
+    :order => "ladder_id DESC, updated_at DESC", :include => [:ladder, :challenger, :defender])
+	end
+	
+	def Challenge.ladder_challenges(ladder_id, page)
+    Challenge.paginate(:per_page => 10, :page => page,
+    :conditions => "ladder_id = #{@ladder.id} and score is not null", 
+    :order => "ladder_id DESC, updated_at DESC", :include => [:ladder, :challenger, :defender])	
 	end
 
 end

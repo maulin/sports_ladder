@@ -24,6 +24,19 @@ class Challenge < ActiveRecord::Base
 		end
 
 	end
+	
+	def Challenge.player_challenges(player_id, ladder_id, page)
+	  Challenge.paginate(:per_page => 10, :page => page,
+		:conditions => "(challenger_id = #{player_id} or defender_id = #{player_id}) and
+    score is not null and ladder_id = #{ladder_id}", 
+    :order => "ladder_id DESC, updated_at DESC", :include => [:ladder, :challenger, :defender])
+	end
+	
+	def Challenge.ladder_challenges(ladder_id, page)
+    Challenge.paginate(:per_page => 10, :page => page,
+    :conditions => "ladder_id = #{ladder_id} and score is not null", 
+    :order => "ladder_id DESC, updated_at DESC", :include => [:ladder, :challenger, :defender])	
+	end
 
 end
 
