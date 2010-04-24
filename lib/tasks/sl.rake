@@ -6,7 +6,7 @@ task :cancel_outstanding_challenge => :environment do
   puts "******************************"
   puts Time.now
   
-  oc = Challenge.find(:all, :conditions => "challenge_end_date = str_to_date('#{DateTime.now.strftime('%m%d%y')}', '%m%d%y')")
+  oc = Challenge.find(:all, :conditions => "challenge_end_date <= str_to_date('#{DateTime.now.strftime('%m%d%y')}', '%m%d%y') and winner_id is null")
   
   puts "Found #{oc.size} outstanding challenges"
   
@@ -28,7 +28,7 @@ task :remove_penalty => :environment do
   puts "******************************"
   puts Time.now
   
-  pplayer = Statistic.find(:all, :conditions => "penalized_date = str_to_date('#{DateTime.now.strftime('%m%d%y')}', '%m%d%y')", :include => [:player])
+  pplayer = Statistic.find(:all, :conditions => "penalized_date <= str_to_date('#{DateTime.now.strftime('%m%d%y')}', '%m%d%y') and is_penalized = 1", :include => [:player])
   
   puts "Found #{pplayer.size} penalized players"
   
