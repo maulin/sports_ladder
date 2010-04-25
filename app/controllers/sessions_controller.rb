@@ -33,7 +33,7 @@ class SessionsController < ApplicationController
       @player.updated_password = true
       @reset_pass = ""
       8.times do |i|
-        reset_pass += ("a".."z").to_a[rand(26)]
+        @reset_pass += ("a".."z").to_a[rand(26)]
       end
       if @player.update_attributes(:password => "#{@reset_pass}")
 				UserMailer.deliver_reset_password(@player, @reset_pass)
