@@ -6,6 +6,10 @@ class Player < ActiveRecord::Base
   has_many :ladders, :through => :statistics
   has_many :challenges, :class_name => 'Challenge', :foreign_key => 'challenger_id'
   has_many :defences, :class_name => 'Challenge', :foreign_key => 'defender_id'
+
+  #paperclip
+  has_attached_file :avatar, :styles => { :large => "120x120>", :medium => "48x48>", :thumb => "26x26>" }
+
   
   validates_presence_of :first_name, :last_name, :login, :email
   validates_presence_of :password, :if => :validate_password?

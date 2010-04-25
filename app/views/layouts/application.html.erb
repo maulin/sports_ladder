@@ -35,6 +35,7 @@
 	  <% end %>
 	  <% if logged_in? %>
 	    <li><%= link_to 'Create Ladder', new_ladder_path %></li>
+      <li><%= link_to 'Edit personal info', edit_player_path(@current_player), :method => "get" %></li>    
 	  <% end %>
 	  </ul>
 	</div>

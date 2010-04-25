@@ -61,7 +61,7 @@ end
 		if @spam.answer == answer.downcase
 			if @player.update_attributes(params[:player])
 		  	flash[:notice] = "Personal information updated sucessfully."
-		  	redirect_to player_path(@current_player)
+		  	redirect_to ladders_path
 			else
 		  	render :action => :edit
 			end

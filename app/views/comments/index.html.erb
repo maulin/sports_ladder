@@ -12,6 +12,7 @@
 	<blockquote>
 	  <p>
 	    <b><%= "#{c.created_at.to_s(:short)}:" %></b><br>
+	    <%= image_tag c.player.avatar.url(:medium) %><br>
 	    <b><%= "#{c.player.first_name} said:" %></b><br><br>
 	    <%= simple_format(sanitize(c.comment)) %><br>
 			<% if c.player_id == @current_player.id %>
