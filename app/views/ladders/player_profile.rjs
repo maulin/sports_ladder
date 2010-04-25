@@ -1,0 +1,16 @@
+page.replace_html 'player_profile', 
+  "<h3>Viewing #{@player.first_name} #{@player.last_name}'s player profile</h3>
+  <p>
+  <img src=#{@player.avatar.url(:large)} />
+  <ul>
+    <li>Current rank: #{@stats.current_rank}</li>
+    <li>Highest rank: #{@stats.highest_rank}</li>
+    <li>Lowest rank: #{@stats.lowest_rank}</li>
+    <li>Matches played: #{@matches}</li>
+    <li>Matches won: #{@matches_won}</li>
+    <li>Matches lost: #{@matches_lost}</li>
+		<li>Challenges W/T: #{@challenges_won}/#{@tot_challenges}</li>
+		<li>Defences W/T: #{@defences_won}/#{@tot_defences}</li>
+  </ul>
+  </p>
+  "
