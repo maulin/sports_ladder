@@ -4,14 +4,13 @@ class ChallengesController < ApplicationController
   def index
     if !params[:ladder_id].nil?
       @ladder = Ladder.find(params[:ladder_id])
-      @challenges = Challenge.paginate(:per_page => 10, :page => params[:page],
-     	:conditions => "ladder_id = #{@ladder.id} and score is not null", 
-      :order => "ladder_id DESC, updated_at DESC", :include => [:ladder, :challenger, :defender])
+      page = params[:page]
+      @challenges = Challenge.ladder_challenges(@ladder.id, page)
     elsif !params[:player_id].nil?
-      @player = Player.find(params[:player_id])
-			@challenges = Challenge.paginate(:per_page => 10, :page => params[:page],
-			:conditions => "(challenger_id = #{@player.id} or defender_id = #{@player.id}) and
-      score is not null", :order => "ladder_id DESC, updated_at DESC", :include => [:ladder, :challenger, :defender])
+      player_id = params[:player_id]
+      ladder_id = params[:ladder]
+      page = params[:page]
+			@challenges = Challenge.player_challenges(player_id, ladder_id, page)
     end
   end
 
@@ -27,7 +26,7 @@ class ChallengesController < ApplicationController
     if @challenger_stat.is_penalized == 1
       pd = @challenger_stat.penalized_date.to_date
       d = (pd - DateTime.now.beginning_of_day).to_i
-      flash[:notice] = "You have been penalized, you cannot issue challenges for #{d} days"
+      flash[:notice] = "You have been penalized, you cannot issue challenges for #{d+1} days"
       redirect_to ladder_path(@ladder)
     end
     
@@ -69,11 +68,17 @@ class ChallengesController < ApplicationController
     @challenger = Player.find(@challenger_stat.player_id)
     @defender = Player.find(@defender_stat.player_id)
 
+    if @ladder.challenge_time_limit.nil? or @ladder.challenge_time_limit == 0
+      chal_end_date = nil
+    else
+      chal_end_date = DateTime.now + @ladder.challenge_time_limit.days
+    end
+
     if Challenge.create(
       :challenger_id => @current_player.id,
       :defender_id => params[:challenge][:defender_id],
       :ladder_id => @ladder.id,
-      :challenge_end_date => Time.now + 10.days)
+      :challenge_end_date => chal_end_date)
       @challenger_stat.update_attribute(:is_challenged, 1)
       @defender_stat.update_attribute(:is_challenged, 1)
 

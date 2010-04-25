@@ -1,5 +1,5 @@
 <%= error_messages_for 'player' %>
-<% form_for(@player) do |f| %>
+<% form_for(@player, :html => { :multipart => true }) do |f| %>
 	<p>
 	First Name:<br>
 	<%= f.text_field :first_name %>
@@ -20,6 +20,11 @@
 	<p>
 	Password:<br>
 	<%= f.password_field :password %>
+	</p>
+	<p>
+	Avatar:<br>
+  <%= f.file_field :avatar %><br>
+  <i>Upload an image of yourself.</i>
 	</p>
 	<p>
 	<%= hidden_field_tag 'question', "#{@spam.question}" %>

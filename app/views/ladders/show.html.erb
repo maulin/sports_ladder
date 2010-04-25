@@ -9,6 +9,8 @@
       <li>Challenges made : <%= @tot_chall %></li>
       <li>Advance by : <%= @ladder.rungs %> rungs</li>
       <li>Cooldown : <%= @ladder.cooldown %> days</li>
+      <li>Challenge time limit : <%= @ladder.challenge_time_limit %> days </li>
+      <li>Penalty period : <%= @ladder.penalty_time_limit %> days </li>
       <% if @ladder.sport == "Tennis" %>
 				<li>Best of : <%= @ladder.best_of %> sets</li>
       <% else %>
@@ -24,14 +26,16 @@
       </tr>
     <% @ranked.each do |r| %>
       <tr class="rowA">
-	<td><%= "#{r.player.first_name} #{r.player.last_name}" %></td>
-	<td><%= "#{r.current_rank}" %></td>
+        <td><%= link_to_remote( "#{r.player.first_name} #{r.player.last_name}", 
+                :url =>{ :action => :player_profile, :player_id => r.player.id, :ladder_id => @ladder.id }) %></td>
+      	<td><%= "#{r.current_rank}" %></td>
       </tr>
     <%end%>
     <% @unranked.each do |r| %>
       <tr class="rowA">
-	<td><%= "#{r.player.first_name} #{r.player.last_name}" %></td>
-	<td><%= "Unranked" %></td>
+        <td><%= link_to_remote( "#{r.player.first_name} #{r.player.last_name}", 
+                :url =>{ :action => :player_profile, :player_id => r.player.id, :ladder_id => @ladder.id }) %></td>
+      	<td><%= "Unranked" %></td>
       </tr>
     <%end%>
     </table>
@@ -41,6 +45,10 @@
   <div id="primaryContentContainer">
     <div id="primaryContent">
       <h2><%= "Welcome to #{@ladder.name}" %></h2>
+
+      <span id="player_profile">
+      </span>
+            
       <h3>Open challenges</h3>
   
       <table>
@@ -58,7 +66,11 @@
 	  <td><%= "#{c.challenger.first_name} #{c.challenger.last_name}" %></td>
 	  <td><%= "#{c.defender.first_name} #{c.defender.last_name}" %></td>
 	  <td><%= "#{c.created_at.strftime("%b-%d-%Y")}" %></td>
-	  <td><%= "#{c.challenge_end_date.strftime("%b-%d-%Y")}" %></td>
+	  <% if c.challenge_end_date.nil? %>
+  	  <td><%= "No end date!" %></td>	  
+  	<% else %>
+  	  <td><%= "#{c.challenge_end_date.strftime("%b-%d-%Y")}" %></td>
+  	<% end %>
 		<% if @administer %>
 			<td><%= link_to "Cancel challenge", ladder_challenge_path(@ladder.id, c.id), :method => "delete",
 			:confirm => "Are you sure you want to cancel this challenge?" %></td>
@@ -79,13 +91,27 @@
       <li><%= link_to 'Join this ladder', ladder_statistics_path(@ladder), :method => "post" %></li>
     <% else %>
       <li><%= link_to 'Challenge someone', new_ladder_challenge_path(@ladder), :method => "get" %></li>
-      <li><%= link_to 'View challenges', ladder_challenges_path(@ladder), :method => "get" %></li>
+      <li><%= link_to 'View all challenges', ladder_challenges_path(@ladder), :method => "get" %></li>
+      <li><%= link_to 'View my challenges', player_challenges_path(@current_player, :ladder => "#{@ladder.id}"), :method => "get" %></li>
       <li><%= link_to 'Comments', ladder_comments_path(@ladder.id), :method => "get" %></li>
     <%end%>
     <% if @administer %>
       <li><%= link_to 'Administer', edit_ladder_path(@ladder.id), :method => "get" %></li>
     <%end%>
     </ul>
+    <br>
+
+    <h3> My Ladders </h3>
+    <ul>
+    <% if @player_ladders %>
+      <% @player_ladders.each do |pl| %>
+        <li><%= link_to "#{pl.name}", ladder_path(pl) %></li>
+      <% end %>
+    <% else %>
+      <li> You haven't joined any ladders </li>
+    <% end %>
+    </ul>
+
     <div class="xbg"></div>
   </div>
   <div class="clear"></div>

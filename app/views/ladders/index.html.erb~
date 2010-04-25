@@ -1,4 +1,4 @@
-<div id="Content">
+<div id="content">
 
   <div id="tertiaryContent">
     <h3>Site Details</h3>
@@ -12,24 +12,45 @@
 
   <div id="primaryContentContainer">
     <div id="primaryContent">
-      <h3> About </h3>
+      <h2> About </h2>
       <p>
-				Are you looking for an efficient, organized ranking system for group sporting events and tournaments?<br><br>
-
-				Sports Ladder is an internet-based ladder system that currently supports tennis and racket ball ladders, with plans to track to 				additional sports in the future. Keep tabs on scores, or take it one step further and challenge your opponents to a match right from 					the website. Settings for each ladder are completely customizable, and can be changed any time by the ladder administrator. Lastly, 				connect to other ladder participants with messages in a particular ladder's comments section.
+        Are you looking for an efficient, organized ranking system for group sporting events and tournaments?
       </p>
+      <p>
+        Sports Ladder is an internet-based ladder system that currently supports tennis ladders, with plans to track to additional sports in the future. 
+        Keep tabs on scores, or take it one step further and challenge your opponents to a match right from the website. Settings for each ladder are completely customizable, 
+        and can be changed any time by the ladder administrator. Lastly, connect to other ladder participants with messages in a particular ladder's comments section.
+      </P>
+      <h2><%= "Current Ladders" %></h2>
+      <table>
+	      <tr class="rowH">
+	        <th>Ladder Name</th>
+	        <th>Active Since</th>
+	        <th>Number of Players</th>
+	        <th>Challengs Made</th>
+      	</tr>
+      	<% @ladders.each do |l| %>
+      	<tr class="rowA">
+      	  <td><%= link_to "#{l.name}", ladder_path(l) %></td>
+      	  <td><%= "#{l.created_at.strftime("%b-%d-%Y")}" %></td>
+      	  <td><%= "#{l.rungs}" %></td>
+      	  <td><%= "#{l.best_of}" %></td>
+      	</tr>
+        <%end%>      	
+      </table>
+      
     </div>
   </div>
 
   <div id="secondaryContent">
-    <h3> List of Ladders </h3>
-    <ul>
-      <% @ladders.each do |l| %>
-	<li><%= link_to l.name, l %></li>
-      <% end %>
-    </ul>
+ 
     <div class="xbg"></div>
   </div>
-  <div class="clear"></div>
 
+  <div class="clear"></div>
+  
 </div>
+
+
+
+
