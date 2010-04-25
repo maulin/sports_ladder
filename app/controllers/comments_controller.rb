@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
 	def index
 		#@comments = Comment.find(:all, :conditions=>"ladder_id = #{params[:ladder_id]}", :order=>"created_at DESC", :limit => 20)
 		@comments = Comment.paginate(:per_page => 10, :page => params[:page], 
-		:conditions=>"ladder_id = #{params[:ladder_id]}", :order=>"created_at DESC", :limit => 20)
+		:conditions=>"ladder_id = #{params[:ladder_id]}", :order=>"created_at DESC", :limit => 30)
 		@ladder = Ladder.find(params[:ladder_id])
 	end		
 

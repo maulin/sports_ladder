@@ -57,6 +57,7 @@
 	  <th>Defender</th>
 	  <th>Challenge date</th>
 	  <th>Challenge end date</th>
+	  <th>Enter score</th>
 		<% if @administer %>
 			<th>Cancel challenge</th>
 		<% end %>
@@ -70,6 +71,11 @@
   	  <td><%= "No end date!" %></td>	  
   	<% else %>
   	  <td><%= "#{c.challenge_end_date.strftime("%b-%d-%Y")}" %></td>
+  	<% end %>
+  	<% if c.defender_id == @current_player.id or c.challenger_id == @current_player.id %>
+  		<td><%= link_to 'Enter score', edit_ladder_challenge_path(c.ladder.id, c.id) %></td>
+  	<% else %>
+        		<td></td>
   	<% end %>
 		<% if @administer %>
 			<td><%= link_to "Cancel challenge", ladder_challenge_path(@ladder.id, c.id), :method => "delete",

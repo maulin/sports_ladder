@@ -44,6 +44,7 @@ def edit
   rand_quest_id = rand(count)
   rand_quest_id = 1 if rand_quest_id == 0
   @spam = SpamQuestions.find(rand_quest_id)
+  session[:back] = request.referer
 end
 
 	def update
@@ -61,7 +62,11 @@ end
 		if @spam.answer == answer.downcase
 			if @player.update_attributes(params[:player])
 		  	flash[:notice] = "Personal information updated sucessfully."
-		  	redirect_to ladders_path
+		  	if session[:back]
+		  	  redirect_to session[:back]
+		  	else
+  		  	redirect_to ladders_path
+  		  end
 			else
 		  	render :action => :edit
 			end
