@@ -38,7 +38,7 @@ class LaddersController < ApplicationController
 		@unranked = Statistic.find(:all, :order => "current_rank ASC", 
 		:conditions=>"ladder_id = #{@ladder.id} and current_rank = 0", :include => :player)
 		@challenges = Challenge.find(:all, :order => "created_at DESC",
-		:conditions => "ladder_id = #{@ladder.id} and score is NULL", :include => [:challenger, :defender])
+		:conditions => "ladder_id = #{@ladder.id} and score is NULL", :include => [:challenger, :defender, :ladder])
 		@tot_chall = Challenge.count(:conditions => ["ladder_id = ?", params[:id]])
 		@player_ladders = Player.find_ladders(@current_player)
 		
@@ -192,13 +192,13 @@ class LaddersController < ApplicationController
     winner_id != #{@player.id}")
     @matches_lost = l[0].l
     c = Challenge.find_by_sql("select count(*) c from challenges where ladder_id = #{@ladder.id} and 
-    challenger_id = #{@player.id}")
+    challenger_id = #{@player.id} and winner_id is not null")
     @tot_challenges = c[0].c
     cw = Challenge.find_by_sql("select count(*) cw from challenges where ladder_id = #{@ladder.id} and 
     challenger_id = #{@player.id} and winner_id = #{@player.id}")
     @challenges_won = cw[0].cw
     d = Challenge.find_by_sql("select count(*) d from challenges where ladder_id = #{@ladder.id} and 
-    defender_id = #{@player.id}")
+    defender_id = #{@player.id} and winner_id is not null")
     @tot_defences = d[0].d
     dw = Challenge.find_by_sql("select count(*) dw from challenges where ladder_id = #{@ladder.id} and 
     defender_id = #{@player.id} and winner_id = #{@player.id}")
