@@ -72,7 +72,7 @@
   	<% else %>
   	  <td><%= "#{c.challenge_end_date.strftime("%b-%d-%Y")}" %></td>
   	<% end %>
-  	<% if c.defender_id == @current_player.id or c.challenger_id == @current_player.id %>
+  	<% if @current_player and (c.defender_id == @current_player.id or c.challenger_id == @current_player.id) %>
   		<td><%= link_to 'Enter score', edit_ladder_challenge_path(c.ladder.id, c.id) %></td>
   	<% else %>
         		<td></td>
