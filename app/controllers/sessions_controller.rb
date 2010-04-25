@@ -31,8 +31,12 @@ class SessionsController < ApplicationController
       redirect_to new_session_path
     else
       @player.updated_password = true
-      if @player.update_attributes(:password => "w3lcom3")
-				UserMailer.deliver_reset_password(@player)
+      @reset_pass = ""
+      8.times do |i|
+        reset_pass += ("a".."z").to_a[rand(26)]
+      end
+      if @player.update_attributes(:password => "#{@reset_pass}")
+				UserMailer.deliver_reset_password(@player, @reset_pass)
 				flash[:notice] = "#{@player.first_name}, your password has been reset. Your new password has been mailed to you."
 				redirect_to new_session_path
       else

@@ -27,11 +27,11 @@ class UserMailer < ActionMailer::Base
     body		:challenger => challenger, :defender => defender, :ladder => ladder
   end
 
-  def reset_password(player)
+  def reset_password(player, reset_pass)
     recipients		player.email
     from		"admin@sl.maulinpathare.com"       
     subject		"Password reset request"
-    body		:player => player
+    body		:player => player, :reset_pass => reset_pass
   end
 
   def new_comment(commenter, player, ladder, comment)
