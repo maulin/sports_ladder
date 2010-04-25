@@ -1,6 +1,7 @@
-page.replace_html 'stats', 
-  "<h3>#{@ladder.name}</h3>
+page.replace_html 'player_profile', 
+  "<h3>Viewing #{@player.first_name} #{@player.last_name}'s player profile</h3>
   <p>
+  <img src=#{@player.avatar.url(:large)} />
   <ul>
     <li>Current rank: #{@stats.current_rank}</li>
     <li>Highest rank: #{@stats.highest_rank}</li>
@@ -11,7 +12,5 @@ page.replace_html 'stats',
 		<li>Challenges W/T: #{@challenges_won}/#{@tot_challenges}</li>
 		<li>Defences W/T: #{@defences_won}/#{@tot_defences}</li>
   </ul>
-  </p>"
-
-
-
+  </p>
+  "

@@ -13,7 +13,8 @@ class Player < ActiveRecord::Base
   validates_format_of :first_name, :last_name, :with => /^[a-z A-Z]+$/, :message => "only aplhabets and spaces are allowed"
   validates_format_of :login, :with => /^[a-z A-Z0-9]+$/, :message => "only aplhanumerics and spaces are allowed"
   validates_length_of :login, :in => 6..15
-  validates_format_of :password, :with => /^[a-z A-Z0-9]+$/, :message => "only aplhanumerics and spaces are allowed", :if => :validate_password?
+  validates_format_of :password, :with => /^[a-z A-Z0-9]+$/, 
+											:message => "only aplhanumerics and spaces are allowed", :if => :validate_password?
   validates_length_of :password, :in => 6..15, :if => :validate_password?
 
   before_save :hash_password
@@ -27,6 +28,15 @@ class Player < ActiveRecord::Base
   def hash_password
     if validate_password?
       self.password = Digest::SHA1.hexdigest(self.password)
+    end
+  end
+  
+  def Player.find_ladders(player)
+    unless player.nil?
+      s = Statistic.find(:all, :select => :ladder_id, :conditions => {:player_id => player_id})
+      Ladder.find(s.collect!{|x| x.ladder_id})
+    else
+      nil
     end
   end
 
