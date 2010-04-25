@@ -22,6 +22,15 @@
   <%= f.text_field :rungs, :size => 1, :maxlength => 1 %><br>
   <i>Number of players above the challenger that can be challenged.</i><br><br>
 
+  <b>Challenge time limit:</b><br>
+  <%= f.text_field :challenge_time_limit, :size => 1, :maxlength => 2 %><br>
+  <i>Number of days a challenge must be played within. Set to 0 for no time limit</i><br><br>
+
+  <b>Penalty time:</b><br>
+  <%= f.text_field :penalty_time_limit, :size => 1, :maxlength => 1 %><br>
+  <i>If a challenge is not played within the alloted time, both players will be penalized by not being allowed to challenge anyone.<br>
+  Enter the number of days this penalty will last. Enter 0 for no penalty.</i><br><br>  
+
   <b>Description:</b><br>
   <%= f.text_area :description, :size => "80x30" %><br><br>
 	<i>use of HTML tags like &lt br &gt, &lt ul &gt is allowed</i><br><br>

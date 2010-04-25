@@ -11,10 +11,18 @@ task :cancel_outstanding_challenge => :environment do
   puts "Found #{oc.size} outstanding challenges"
   
   oc.each do |c|
+    next if c.ladder.challenge_time_limit.nil? or c.ladder.challenge_time_limit == 0
+    
+    if c.ladder.penalty_time_limit.nil? or c.ladder.penalty_time_limit == 0
+      penalty = nil
+    else
+      penalty = DateTime.now.beginning_of_day + c.ladder.penalty_time_limit.days
+    end
+      
     chal_stat = Statistic.find(:first, :conditions => "player_id = #{c.challenger_id} and ladder_id = #{c.ladder_id}", :include => [:player])
     def_stat = Statistic.find(:first, :conditions => "player_id = #{c.defender_id} and ladder_id = #{c.ladder_id}", :include => [:player])
-    Statistic.update(chal_stat.id, {:is_challenged => 0, :is_penalized => 1, :penalized_date => DateTime.now.beginning_of_day + 6.days})
-    Statistic.update(def_stat.id, {:is_challenged => 0, :is_penalized => 1, :penalized_date => DateTime.now.beginning_of_day + 6.days})
+    Statistic.update(chal_stat.id, {:is_challenged => 0, :is_penalized => 1, :penalized_date => penalty })
+    Statistic.update(def_stat.id, {:is_challenged => 0, :is_penalized => 1, :penalized_date => penalty})
     Challenge.delete(c.id)
     puts "Challenge id = #{c.id}, Challenge date = #{c.created_at}"
     puts "Challenger = #{chal_stat.player.first_name}, Defender = #{def_stat.player.first_name}"

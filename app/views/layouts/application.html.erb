@@ -34,7 +34,6 @@
 	    <li><%= link_to 'Register', new_player_path %></li>
 	  <% end %>
 	  <% if logged_in? %>
-	    <li><%= link_to 'My Page', player_path(@current_player) %></li>
 	    <li><%= link_to 'Create Ladder', new_ladder_path %></li>
 	  <% end %>
 	  </ul>

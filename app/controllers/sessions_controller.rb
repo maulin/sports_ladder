@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     @current_player = Player.find_by_login_and_password(params[:login], Digest::SHA1.hexdigest(params[:password]))
     if logged_in?
       session[:player_id] = @current_player.id
-      redirect_to player_path(@current_player.id)
+      redirect_to ladders_path
     else
       render :action => 'new'
     end

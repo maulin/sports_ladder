@@ -43,6 +43,16 @@
   </div>
 
   <div id="secondaryContent">
+    <h3> My Ladders </h3>
+    <ul>
+    <% if @player_ladders %>
+      <% @player_ladders.each do |pl| %>
+        <li><%= link_to "#{pl.name}", ladder_path(pl) %></li>
+      <% end %>
+    <% else %>
+      <li> You haven't joined any ladders </li>
+    <% end %>
+    </ul>  
  
     <div class="xbg"></div>
   </div>

@@ -9,6 +9,8 @@
       <li>Challenges made : <%= @tot_chall %></li>
       <li>Advance by : <%= @ladder.rungs %> rungs</li>
       <li>Cooldown : <%= @ladder.cooldown %> days</li>
+      <li>Challenge time limit : <%= @ladder.challenge_time_limit %> days </li>
+      <li>Penalty period : <%= @ladder.penalty_time_limit %> days </li>
       <% if @ladder.sport == "Tennis" %>
 				<li>Best of : <%= @ladder.best_of %> sets</li>
       <% else %>
@@ -24,14 +26,16 @@
       </tr>
     <% @ranked.each do |r| %>
       <tr class="rowA">
-	<td><%= "#{r.player.first_name} #{r.player.last_name}" %></td>
-	<td><%= "#{r.current_rank}" %></td>
+        <td><%= link_to_remote( "#{r.player.first_name} #{r.player.last_name}", 
+                :url =>{ :action => :player_profile, :player_id => r.player.id, :ladder_id => @ladder.id }) %></td>
+      	<td><%= "#{r.current_rank}" %></td>
       </tr>
     <%end%>
     <% @unranked.each do |r| %>
       <tr class="rowA">
-	<td><%= "#{r.player.first_name} #{r.player.last_name}" %></td>
-	<td><%= "Unranked" %></td>
+        <td><%= link_to_remote( "#{r.player.first_name} #{r.player.last_name}", 
+                :url =>{ :action => :player_profile, :player_id => r.player.id, :ladder_id => @ladder.id }) %></td>
+      	<td><%= "Unranked" %></td>
       </tr>
     <%end%>
     </table>
@@ -41,6 +45,10 @@
   <div id="primaryContentContainer">
     <div id="primaryContent">
       <h2><%= "Welcome to #{@ladder.name}" %></h2>
+
+      <span id="player_profile">
+      </span>
+            
       <h3>Open challenges</h3>
   
       <table>
@@ -86,6 +94,7 @@
       <li><%= link_to 'View all challenges', ladder_challenges_path(@ladder), :method => "get" %></li>
       <li><%= link_to 'View my challenges', player_challenges_path(@current_player, :ladder => "#{@ladder.id}"), :method => "get" %></li>
       <li><%= link_to 'Comments', ladder_comments_path(@ladder.id), :method => "get" %></li>
+      <li><%= link_to 'Edit info', edit_player_path(@current_player), :method => "get" %></li>    
     <%end%>
     <% if @administer %>
       <li><%= link_to 'Administer', edit_ladder_path(@ladder.id), :method => "get" %></li>
