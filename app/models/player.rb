@@ -54,9 +54,9 @@ class Player < ActiveRecord::Base
     @matches = @m.size
 
     @w = Challenge.find(:all, :conditions => "ladder_id = #{ladder_id} and winner_id = #{self.id}", :include => [:challenger, :defender], 
-    :limit => 5, :order => "updated_at DESC")
+    :order => "updated_at DESC")
     @l = Challenge.find(:all, :conditions => "ladder_id = #{ladder_id} and (challenger_id = #{self.id} or defender_id = #{self.id}) and winner_id != #{self.id}",
-    :include => [:challenger, :defender], :limit => 5, :order => "updated_at DESC")      
+    :include => [:challenger, :defender], :order => "updated_at DESC")      
 
     @matches_won = @w.size
     @matches_lost = @l.size
