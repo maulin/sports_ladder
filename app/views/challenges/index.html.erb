@@ -44,7 +44,7 @@
     <% if !@ladder.nil? %>
       <li><%= link_to "Back to #{@ladder.name}", @ladder %></li>
     <% else %>
-      <li><%= link_to "My page", @player %></li>
+      <li><%= link_to "Back", :back %></li>
     <%end%>
     </ul>
     <div class="xbg"></div>
