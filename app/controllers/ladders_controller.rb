@@ -178,31 +178,15 @@ class LaddersController < ApplicationController
 	end
 
 	def player_profile
-    @ladder = Ladder.find(params[:ladder_id])
     @player = Player.find(params[:player_id])
-    @stats = Statistic.find(:first, :conditions => "player_id = #{@player.id} and ladder_id = #{params[:ladder_id]}")
-    m = Challenge.find_by_sql("select count(*) m from challenges where ladder_id = #{@ladder.id} and 
-    (challenger_id = #{@player.id} or defender_id = #{@player.id}) and winner_id is not null")
-    @matches = m[0].m
-    w = Challenge.find_by_sql("select count(*) w from challenges where 
-    ladder_id = #{@ladder.id} and winner_id = #{@player.id}")
-    @matches_won = w[0].w
-    l = Challenge.find_by_sql("select count(*) l from challenges where ladder_id = #{@ladder.id} and 
-    (challenger_id = #{@player.id} or defender_id = #{@player.id}) and 
-    winner_id != #{@player.id}")
-    @matches_lost = l[0].l
-    c = Challenge.find_by_sql("select count(*) c from challenges where ladder_id = #{@ladder.id} and 
-    challenger_id = #{@player.id} and winner_id is not null")
-    @tot_challenges = c[0].c
-    cw = Challenge.find_by_sql("select count(*) cw from challenges where ladder_id = #{@ladder.id} and 
-    challenger_id = #{@player.id} and winner_id = #{@player.id}")
-    @challenges_won = cw[0].cw
-    d = Challenge.find_by_sql("select count(*) d from challenges where ladder_id = #{@ladder.id} and 
-    defender_id = #{@player.id} and winner_id is not null")
-    @tot_defences = d[0].d
-    dw = Challenge.find_by_sql("select count(*) dw from challenges where ladder_id = #{@ladder.id} and 
-    defender_id = #{@player.id} and winner_id = #{@player.id}")
-    @defences_won = dw[0].dw
+    @player.player_profile(params[:ladder_id])
+	end
+
+	def player_profile_details
+    @player = Player.find(params[:player_id])
+    page = params[:page]
+    @player.player_profile(params[:ladder_id])
+    @type = params[:type]
 	end
 
 end
