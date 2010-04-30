@@ -13,6 +13,7 @@
 	  <th>score</th>	  	  
   </tr>
   <% @player.w.each do |i| %>
+    <% break if @player.w.index(i) > 4 %>
   <tr class="rowA">
     <td><%= "#{i.updated_at.strftime("%b-%d-%Y")}" %></td>
     <td><%= "#{i.challenger.first_name}" %></td>
@@ -30,6 +31,7 @@
 	  <th>score</th>	  	  
   </tr>
   <% @player.l.each do |i| %>
+    <% break if @player.l.index(i) > 4 %>  
   <tr class="rowA">
     <td><%= "#{i.updated_at.strftime("%b-%d-%Y")}" %></td>
     <td><%= "#{i.challenger.first_name}" %></td>
