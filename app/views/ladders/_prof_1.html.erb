@@ -1,0 +1,15 @@
+<h3><%= "Viewing #{@player.first_name} #{@player.last_name}'s profile" %></h3>
+
+<%= image_tag @player.avatar.url(:large) %>
+
+<ul>
+  <li><%= "Highest rank: #{@player.stat.highest_rank}" %></li>
+  <li><%= "Lowest rank: #{@player.stat.lowest_rank}" %></li>
+  <li><%= "Matches played: #{@player.matches}" %></li>
+  <li><%= link_to_remote "Matches won: ", 
+  :url =>{ :action => :player_profile_details, :player_id => @player.id, :ladder_id => @player.stat.ladder_id, :type => "won"} %><%= "#{@player.matches_won}" %></li>
+  <li><%= link_to_remote "Matches lost: ", 
+  :url =>{ :action => :player_profile_details, :player_id => @player.id, :ladder_id => @player.stat.ladder_id, :type => "lost"} %><%= "#{@player.matches_lost}" %></li>
+  <li><%= "Challenges W/T: #{@player.challenges_won}/#{@player.tot_challenges}" %></li>
+ 	<li><%= "Defences W/T: #{@player.defences_won}/#{@player.tot_defences}" %></li>
+</ul>

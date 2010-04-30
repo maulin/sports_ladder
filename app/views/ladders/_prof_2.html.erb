@@ -1,0 +1,42 @@
+<% if @type == "won" %>
+  <h3><%= "Viewing recent matches that #{@player.first_name} #{@player.last_name} won" %></h3>
+<%else%>
+  <h3><%= "Viewing recent matches that #{@player.first_name} #{@player.last_name} lost" %></h3>
+<% end %>  
+
+<% if @type == "won" %>
+<table>
+  <tr class="rowH">
+    <th>Challenge date</th>
+	  <th>Challenger name</th>
+	  <th>Defender name</th>
+	  <th>score</th>	  	  
+  </tr>
+  <% @player.w.each do |i| %>
+  <tr class="rowA">
+    <td><%= "#{i.updated_at.strftime("%b-%d-%Y")}" %></td>
+    <td><%= "#{i.challenger.first_name}" %></td>
+    <td><%= "#{i.defender.first_name}" %></td>
+    <td><%= "#{i.score}" %></td>        
+  </tr>
+  <%end%>
+</table>  
+<%else%>  
+<table>
+  <tr class="rowH">
+    <th>Challenge date</th>
+	  <th>Challenger name</th>
+	  <th>Defender name</th>
+	  <th>score</th>	  	  
+  </tr>
+  <% @player.l.each do |i| %>
+  <tr class="rowA">
+    <td><%= "#{i.updated_at.strftime("%b-%d-%Y")}" %></td>
+    <td><%= "#{i.challenger.first_name}" %></td>
+    <td><%= "#{i.defender.first_name}" %></td>
+    <td><%= "#{i.score}" %></td>        
+  </tr>
+  <%end%>
+</table>  
+<%end%>
+

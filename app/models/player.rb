@@ -23,7 +23,9 @@ class Player < ActiveRecord::Base
 
   before_save :hash_password
 
-  attr_accessor :updated_password
+  attr_accessor :updated_password, :m, :matches, :w, :matches_won, :l, :matches_lost, :stat,
+                :c, :tot_challenges, :cw, :challenges_won, :d, :tot_defences, :dw, :defences_won
+  
 
   def validate_password?
     updated_password || new_record?
@@ -43,5 +45,34 @@ class Player < ActiveRecord::Base
       nil
     end
   end
+
+  def player_profile(ladder_id)
+
+    @stat = Statistic.find(:first, :conditions => "player_id = #{self.id} and ladder_id = #{ladder_id}")
+    
+    @m = Challenge.find(:all, :conditions => "ladder_id = #{ladder_id} and (challenger_id = #{self.id} or defender_id = #{self.id}) and winner_id is not null")
+    @matches = @m.size
+
+    @w = Challenge.find(:all, :conditions => "ladder_id = #{ladder_id} and winner_id = #{self.id}", :include => [:challenger, :defender], 
+    :limit => 5, :order => "updated_at DESC")
+    @l = Challenge.find(:all, :conditions => "ladder_id = #{ladder_id} and (challenger_id = #{self.id} or defender_id = #{self.id}) and winner_id != #{self.id}",
+    :include => [:challenger, :defender], :limit => 5, :order => "updated_at DESC")      
+
+    @matches_won = @w.size
+    @matches_lost = @l.size
+
+    @c = Challenge.find(:all, :conditions => "ladder_id = #{ladder_id} and challenger_id = #{self.id} and winner_id is not null")
+    @tot_challenges = @c.size
+
+    @cw = Challenge.find(:all, :conditions => "ladder_id = #{ladder_id} and challenger_id = #{self.id} and winner_id = #{self.id}")
+    @challenges_won = @cw.size
+
+    @d = Challenge.find(:all, :conditions => "ladder_id = #{ladder_id} and defender_id = #{self.id} and winner_id is not null")
+    @tot_defences = @d.size
+
+    @dw = Challenge.find(:all, :conditions => "ladder_id = #{ladder_id} and defender_id = #{self.id} and winner_id = #{self.id}")
+    @defences_won = @dw.size
+    
+	end	
 
 end
