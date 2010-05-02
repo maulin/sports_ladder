@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
   end
 
   def reset_password
-    @player = Player.find(:first, :conditions => ["email = ?", params[:email]])
+    @player = Player.find(:first, :conditions => ["login = ?", params[:login]])
     if @player.nil?
       flash[:notice] = "That is not a registered email address. Please use the email you used to register."
       redirect_to new_session_path
