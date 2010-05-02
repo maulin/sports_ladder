@@ -1,5 +1,7 @@
 class LaddersController < ApplicationController
   before_filter :login_required, :only => [:new, :create]
+
+  caches_page :show
   
   def index
     #@ladders = Ladder.find(:all)
@@ -159,6 +161,8 @@ class LaddersController < ApplicationController
       end
     end
     redirect_to ladder_path(@ladder)
+
+    clear_cache(@ladder)    
   end
 
 	def reset_stats
@@ -169,12 +173,15 @@ class LaddersController < ApplicationController
 
 	def destroy
 		@ladder = Ladder.find(params[:id])
+		expire_page :action => :show, :id => @ladder.id
 		Statistic.delete_all("ladder_id = #{@ladder.id}")
 		Comment.delete_all("ladder_id = #{@ladder.id}")
 		Challenge.delete_all("ladder_id = #{@ladder.id}")
 		Ladder.delete(@ladder.id)
 		flash[:notice] = "deleted"
 		redirect_to ladders_path
+
+	  clear_cache(@ladder)
 	end
 
 	def player_profile

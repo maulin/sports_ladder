@@ -13,7 +13,7 @@ class Player < ActiveRecord::Base
   
   validates_presence_of :first_name, :last_name, :login, :email
   validates_presence_of :password, :if => :validate_password?
-  validates_uniqueness_of :login, :email
+  validates_uniqueness_of :login
   validates_format_of :first_name, :last_name, :with => /^[a-z A-Z]+$/, :message => "only aplhabets and spaces are allowed"
   validates_format_of :login, :with => /^[a-z A-Z0-9]+$/, :message => "only aplhanumerics and spaces are allowed"
   validates_length_of :login, :in => 6..15

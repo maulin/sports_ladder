@@ -12,12 +12,17 @@ class SessionsController < ApplicationController
     else
       render :action => 'new'
     end
+
+		system("rm -rf #{RAILS_ROOT}/public/ladders")    
   end
 
   def destroy
+ 		expire_page :controller=> "ladders", :action => :show
 		session[:player_id] = @current_player = nil
 		flash[:notice] = "Logout successful."
 		redirect_to new_session_path
+
+		system("rm -rf #{RAILS_ROOT}/public/ladders")
   end
 
   def forgot_password
@@ -25,7 +30,7 @@ class SessionsController < ApplicationController
   end
 
   def reset_password
-    @player = Player.find(:first, :conditions => ["email = ?", params[:email]])
+    @player = Player.find(:first, :conditions => ["login = ?", params[:login]])
     if @player.nil?
       flash[:notice] = "That is not a registered email address. Please use the email you used to register."
       redirect_to new_session_path

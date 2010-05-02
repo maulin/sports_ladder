@@ -23,13 +23,6 @@ class ChallengesController < ApplicationController
     	and player_id = #{@current_player.id}")
     @challenger = @challenger_stat.player
     
-    if @challenger_stat.is_penalized == 1
-      pd = @challenger_stat.penalized_date.to_date
-      d = (pd - DateTime.now.beginning_of_day).to_i
-      flash[:notice] = "You have been penalized, you cannot issue challenges for #{d+1} days"
-      redirect_to ladder_path(@ladder)
-    end
-    
     if @challenger_stat.current_rank != 0
       @stats = Statistic.find(:all, 
       :conditions => "ladder_id = #{@ladder.id} 
@@ -51,14 +44,23 @@ class ChallengesController < ApplicationController
     @players = []
     if @challenger_stat.is_challenged == 0
       @stats.each do |s|
-	@players.push(s.player)
+	    @players.push(s.player)
       end
     end
+
+
+    if @challenger_stat.is_penalized == 1
+      pd = @challenger_stat.penalized_date.to_date
+      d = (pd - DateTime.now.beginning_of_day).to_i
+      @msg = "You have been penalized, you cannot issue challenges for #{d+1} days"
+    end
+  
 
   end
   
   def create
     @ladder = Ladder.find(params[:ladder_id])
+		expire_page :controller=> "ladders", :action => :show, :id => @ladder.id
     @challenger_stat = Statistic.find(:first, 
     :conditions => "ladder_id = #{@ladder.id} 
 		    and player_id = #{@current_player.id}")
@@ -90,6 +92,8 @@ class ChallengesController < ApplicationController
       flash[:notice] = "Challenge created sucessfully"
     end
     redirect_to ladder_path(@ladder.id)
+
+    clear_cache(@ladder)    
   end
 
   def edit
@@ -101,6 +105,7 @@ class ChallengesController < ApplicationController
 
   def update
     @ladder = Ladder.find(params[:ladder_id])
+		expire_page :controller=> "ladders", :action => :show, :id => @ladder.id
     @challenge = Challenge.find(params[:id])
     chal_stat = Statistic.find(:first, :conditions => "player_id = #{@challenge.challenger_id} and ladder_id = #{@ladder.id}")
     def_stat = Statistic.find(:first, :conditions => "player_id = #{@challenge.defender_id} and ladder_id = #{@ladder.id}")
@@ -154,6 +159,7 @@ class ChallengesController < ApplicationController
 			redirect_to player_path(@current_player.id)
     end
 
+    clear_cache(@ladder)
   end
 
   def destroy
@@ -165,15 +171,17 @@ class ChallengesController < ApplicationController
     @challenger = Player.find(challenge.challenger_id)
     @defender = Player.find(challenge.defender_id)
     @ladder = Ladder.find(challenge.ladder_id)
+    clear_cache(@ladder)
 
     Statistic.update(chal_stat.id, {:is_challenged => 0})
     Statistic.update(def_stat.id, {:is_challenged => 0})
     Challenge.delete(challenge.id)
     UserMailer.deliver_cancel_challenge(@challenger, @defender, @ladder)
     
-    flash[:notice] = "Challenge deleted."
+    #flash[:notice] = "Challenge deleted."
     #redirect_to ladder_path(@ladder)
-		redirect_to :back
+		redirect_to ladder_path(@ladder)
+
   end
 
 end
