@@ -12,12 +12,17 @@ class SessionsController < ApplicationController
     else
       render :action => 'new'
     end
+
+		system("rm -rf #{RAILS_ROOT}/public/ladders")    
   end
 
   def destroy
+ 		expire_page :controller=> "ladders", :action => :show
 		session[:player_id] = @current_player = nil
 		flash[:notice] = "Logout successful."
 		redirect_to new_session_path
+
+		system("rm -rf #{RAILS_ROOT}/public/ladders")
   end
 
   def forgot_password

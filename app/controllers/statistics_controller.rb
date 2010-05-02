@@ -18,6 +18,7 @@ before_filter :login_required, :only => [:create]
 			flash[:notice] = "Could not join ladder, try again."
 		end
 
+    clear_cache(@ladder)
 	end
 
 end

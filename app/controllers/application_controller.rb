@@ -42,7 +42,11 @@ class ApplicationController < ActionController::Base
 			return nil
 		end
 	end
+
+	def clear_cache(ladder)
+    expire_page :controller => "ladders", :action => :show, :id => ladder
+	end
 	
-	helper_method :logged_in?, :player_ladder
+	helper_method :logged_in?, :player_ladder, :clear_cache
 
 end
