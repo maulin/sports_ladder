@@ -28,16 +28,6 @@ class PlayersController < ApplicationController
     end
   end
 
-'''
-def show
-  @player = Player.find(@current_player.id)
-  @ladders = @player.ladders
-  @challenges = Challenge.find(:all, :order => "created_at DESC",
-  :conditions => "(challenger_id = #{@player.id} or defender_id = #{@player.id})
-  and score is NULL", :include => [:challenger, :defender, :ladder])
-end
-'''
-
 def edit
   @player = Player.find(params[:id])
   count = SpamQuestions.count
