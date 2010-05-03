@@ -1,8 +1,6 @@
 class LaddersController < ApplicationController
   before_filter :login_required, :only => [:new, :create]
 
-  caches_page :show
-  
   def index
     #@ladders = Ladder.find(:all)
     @ladders = Ladder.find_ladder_stats
@@ -162,7 +160,6 @@ class LaddersController < ApplicationController
     end
     redirect_to ladder_path(@ladder)
 
-    clear_cache(@ladder)    
   end
 
 	def reset_stats
@@ -181,7 +178,6 @@ class LaddersController < ApplicationController
 		flash[:notice] = "deleted"
 		redirect_to ladders_path
 
-	  clear_cache(@ladder)
 	end
 
 	def player_profile

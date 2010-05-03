@@ -93,7 +93,6 @@ class ChallengesController < ApplicationController
     end
     redirect_to ladder_path(@ladder.id)
 
-    clear_cache(@ladder)    
   end
 
   def edit
@@ -159,7 +158,6 @@ class ChallengesController < ApplicationController
 			redirect_to player_path(@current_player.id)
     end
 
-    clear_cache(@ladder)
   end
 
   def destroy
@@ -171,7 +169,6 @@ class ChallengesController < ApplicationController
     @challenger = Player.find(challenge.challenger_id)
     @defender = Player.find(challenge.defender_id)
     @ladder = Ladder.find(challenge.ladder_id)
-    clear_cache(@ladder)
 
     Statistic.update(chal_stat.id, {:is_challenged => 0})
     Statistic.update(def_stat.id, {:is_challenged => 0})

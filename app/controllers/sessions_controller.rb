@@ -13,7 +13,6 @@ class SessionsController < ApplicationController
       render :action => 'new'
     end
 
-		system("rm -rf #{RAILS_ROOT}/public/ladders")    
   end
 
   def destroy
@@ -22,7 +21,6 @@ class SessionsController < ApplicationController
 		flash[:notice] = "Logout successful."
 		redirect_to new_session_path
 
-		system("rm -rf #{RAILS_ROOT}/public/ladders")
   end
 
   def forgot_password

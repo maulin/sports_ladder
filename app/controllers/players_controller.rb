@@ -66,7 +66,6 @@ end
 			render :action => :edit
 		end
 
-    system("rm -rf #{RAILS_ROOT}/public/ladders")
 	end
 
 end
