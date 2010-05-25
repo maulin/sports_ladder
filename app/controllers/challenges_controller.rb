@@ -148,10 +148,10 @@ class ChallengesController < ApplicationController
       end
 	
       flash[:notice] = "Score scuessfully submitted."
-      redirect_to player_path(@current_player.id)
+      redirect_to ladder_path(@ladder)
     else
       flash[:notice] = "Score submission failed. Please try again."
-			redirect_to player_path(@current_player.id)
+			redirect_to ladder_path(@ladder)
     end
 
   end
